@@ -10,7 +10,7 @@
 
 | Phase | Name | Status | Plans |
 |-------|------|--------|-------|
-| 1 | Scaffolding & Infrastructure | Pending | 0 |
+| 1 | Scaffolding & Infrastructure | Planned | 3 |
 | 2 | Backend: Auth + Core API | Pending | 0 |
 | 3 | Frontend: UI Core | Pending | 0 |
 | 4 | Testing & Seed + README | Pending | 0 |
