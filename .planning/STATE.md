@@ -1,8 +1,8 @@
 # Project State: ClonTwitter
 
 **Last Updated:** 2026-06-04
-**Current Phase:** 2 — Backend: Auth + Core API
-**Status:** In Progress
+**Current Phase:** 3 — Frontend: UI Core
+**Status:** Pending
 
 ---
 
@@ -11,7 +11,7 @@
 | Phase | Name | Status | Plans |
 |-------|------|--------|-------|
 | 1 | Scaffolding & Infrastructure | Done | 3 |
-| 2 | Backend: Auth + Core API | In Progress | 4 |
+| 2 | Backend: Auth + Core API | Done | 4 |
 | 3 | Frontend: UI Core | Pending | 0 |
 | 4 | Testing & Seed + README | Pending | 0 |
 
