@@ -1,0 +1,9 @@
+.env
+.env.local
+node_modules/
+dist/
+.next/
+*.log
+coverage/
+playwright-report/
+.DS_Store
