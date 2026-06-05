@@ -29,7 +29,7 @@ services:
       REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
       PORT: 4000
       NODE_ENV: development
-    command: sh -c "npm run db:seed && node dist/index.js"
+    command: sh -c "npm run db:migrate && npm run db:seed && node dist/index.js"
 
   frontend:
     build:

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/store/authStore'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, useAuthStore } from '@/store/authStore'
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -44,6 +44,8 @@ api.interceptors.response.use(
           if (typeof window !== 'undefined') {
             localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
           }
+          // Keep the Zustand store in sync with the refreshed token
+          useAuthStore.setState({ accessToken: newAccessToken })
 
           originalRequest.headers = originalRequest.headers ?? {}
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
@@ -51,17 +53,15 @@ api.interceptors.response.use(
           return api(originalRequest)
         } catch {
           // Refresh failed — clear tokens and force re-login
+          useAuthStore.getState().clearAuth()
           if (typeof window !== 'undefined') {
-            localStorage.removeItem(ACCESS_TOKEN_KEY)
-            localStorage.removeItem(REFRESH_TOKEN_KEY)
             window.location.assign('/login')
           }
         }
       } else {
         // No refresh token available — clear and redirect
+        useAuthStore.getState().clearAuth()
         if (typeof window !== 'undefined') {
-          localStorage.removeItem(ACCESS_TOKEN_KEY)
-          localStorage.removeItem(REFRESH_TOKEN_KEY)
           window.location.assign('/login')
         }
       }
