@@ -9,7 +9,7 @@
 | 1 | Scaffolding & Infrastructure | Monorepo running, Docker up, DB connected, migrations applied | INFR-01, INFR-02, INFR-03, INFR-04, INFR-05, PROF-03, ERRH-01, ERRH-02, ERRH-03, ERRH-04, L10N-02 | 3 |
 | 2 | Backend: Auth + Core API | All REST endpoints implemented, auth working end-to-end, integration tests passing | AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, AUTH-07, CONT-01, CONT-02, CONT-03, CONT-04, CONT-05, SOCL-01, SOCL-02, SOCL-03, SOCL-04, SOCL-05, LIKE-01, LIKE-02, LIKE-03, LIKE-04, TMEL-01, TMEL-02, TMEL-03, TMEL-04, SRCH-01, SRCH-02, PROF-01, PROF-02 | 0 |
 | 3 | Frontend: UI Core | Complete UI working end-to-end, responsive, all text in Spanish, SSE real-time | REAL-01, REAL-02, REAL-03, REAL-04, L10N-01, TEST-03 | 0 |
-| 4 | Testing & Seed + README | E2E happy path passing, seed data, app fully demonstrable from zero | TEST-01, TEST-02, TEST-04, TEST-05, INFR-03 | 0 |
+| 4 | Testing & Seed + README | E2E happy path passing, seed data, app fully demonstrable from zero | TEST-01, TEST-02, TEST-04, TEST-05, INFR-03 | 3 |
 
 ---
 
@@ -287,5 +287,24 @@
 1. Playwright @smoke test passes against `docker compose up --build` stack
 2. README runbook produces working app from zero on a clean machine
 3. Seed data populates on first run automatically
+
+### Plan 4.3 — CI/CD (GitHub Actions)
+
+**Goal:** Two GitHub Actions workflows: PR gate (lint + typecheck + unit/integration tests) and main-merge pipeline (E2E + Docker build).
+
+**Tasks:**
+1. Create `.github/workflows/ci.yml` — triggers on pull_request; jobs: (a) backend: `npm ci`, `tsc --noEmit`, `npm test` against an ephemeral `services: postgres:16` with `TEST_DATABASE_URL`; (b) frontend: `npm ci`, `tsc --noEmit`, `npm test`; (c) docker-build: `docker compose build` smoke check
+2. Create `.github/workflows/e2e.yml` — triggers on push to main; spins up full stack with `docker compose up -d`, runs `npm run test:e2e` (Playwright @smoke), then `docker compose down`
+3. Add `TEST_DATABASE_URL` and required secrets (`JWT_SECRET`, `REFRESH_TOKEN_SECRET`, `DATABASE_URL`) to GitHub Actions env using repository secrets; document in README under "CI/CD" section
+
+**Verification:**
+- Open a PR → ci.yml runs all three jobs green
+- Merge to main → e2e.yml passes @smoke Playwright test
+- Failing test in PR → workflow exits non-zero and blocks merge
+
+**Success Criteria:**
+1. ci.yml gates every PR with lint + typecheck + integration tests against real PostgreSQL
+2. e2e.yml runs Playwright @smoke on every merge to main
+3. All required secrets documented in README CI/CD section
 
 ---
