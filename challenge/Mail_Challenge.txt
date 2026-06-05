@@ -1,0 +1,41 @@
+
+Daniela Miceli <daniela.miceli@theflockco.com>
+3:55 p.m. (hace 51 minutos)
+para javiersenentalfonso, Cco:mí
+
+Hola, cómo estás? 
+
+Muchas gracias por tu interés en realizar el challenge de AI Verified. 
+
+El próximo paso tiene dos partes: registrarte en nuestra plataforma y completar el desafío AI Verified.
+
+PASO 1: REGISTRATE COMO FLOCKER
+Ingresá a www.theflock.com y hacé clic en "Apply as Talent" (esquina superior derecha).
+Esto te va a redirigir a platform.theflock.com, donde:
+1. Creás una cuenta con tu email personal.
+2. Vas a recibir un mail con el asunto "Confirm your account".
+3. Hacés clic en el botón del correo para activar tu cuenta.
+Una vez dentro, podés importar tu perfil automáticamente desde LinkedIn, incluyendo tu bio, experiencia y formación.
+
+PASO 2: TU DESAFÍO AI VERIFIED 
+Este desafío valida tu capacidad de construir con IA en condiciones reales de trabajo. Nos permite mostrarles a los clientes cómo pensás, resolvés problemas y aplicás estas herramientas en tu día a día.
+Completarlo te ayuda a destacarte como perfil, demostrando un uso práctico y efectivo de la IA. Una gran oportunidad para diferenciarte y mostrar tu valor más allá de tu CV.
+Si aprobás el desafío, obtenés tu certificado AI Verified, una insignia que acredita tus habilidades y potencia tu perfil frente a futuros clientes y oportunidades.
+
+QUÉ SE EVALÚA:
+• Testing.
+• Funcionalidad.
+• Arquitectura.
+• Calidad de código.
+
+REGLAS:
+• Podés usar cualquier herramienta: Cursor, Copilot, Claude, ChatGPT, internet, docs.
+• No podés compartir el brief ni pedir que otra persona lo resuelva por vos.
+Cuando estés listo, hacé clic acá para ver el brief: https://docs.google.com/document/d/1D-4OrRPCV_ZZYsZpxtpWgGbmXn2Nskso/edit
+
+ Importante: El plazo de 72 horas mencionado en el challenge no aplica para esta instancia. No hay una fecha límite para completarlo, aunque te recomendamos hacerlo lo antes posible para poder avanzar con la evaluación.  
+
+¡Mucho éxito!
+Saludos,
+
+Daniela

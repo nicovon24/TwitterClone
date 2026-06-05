@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"C:/Users/Nicolas/Desktop/Proyectos-Challenges/Prode-WC/ProdeazoAppNuevo/docs/\" -type f -name \"*.md\" | head -30)",
+      "Read(//c/Users/Nicolas/Desktop/Proyectos-Challenges/Prode-WC/ProdeazoAppNuevo/docs/**)",
+      "Read(//c/Users/Nicolas/Desktop/Proyectos-Challenges/Prode-WC/ProdeazoAppNuevo/**)",
+      "Bash(Test-Path \"c:\\\\Users\\\\Nicolas\\\\Desktop\\\\Proyectos-Challenges\\\\ClonTwitter\\\\docs\\\\WORKFLOW.md\")",
+      "Skill(gsd-plan-phase)",
+      "Skill(gsd-plan-phase:*)",
+      "Bash(gsd-sdk query *)",
+      "Read(//c/Users/Nicolas/.claude/get-shit-done/**)",
+      "Bash(gsd-sdk init *)",
+      "Bash(git init *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
