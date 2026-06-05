@@ -32,8 +32,22 @@ findings:
   warning: 4
   info: 4
   total: 9
-status: issues_found
+status: partially_resolved
+resolved:
+  - CR-01
+  - WR-01
+  - WR-03
+remaining:
+  - WR-02
+  - WR-04
+  - IN-01
+  - IN-02
+  - IN-03
+  - IN-04
 ---
+
+> **Update 2026-06-04:** CR-01, WR-01, and WR-03 fixed in commit `07e5a23`.
+> Remaining items (WR-02 CORS, WR-04 hydration, IN-01..04) deferred — tracked below.
 
 # Phase 1: Code Review Report
 
