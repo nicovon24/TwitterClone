@@ -9,6 +9,7 @@ import followRouter from './routes/follow.routes.js';
 import likeRouter from './routes/like.routes.js';
 import userRouter from './routes/user.routes.js';
 import searchRouter from './routes/search.routes.js';
+import uploadRouter from './routes/upload.routes.js';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(
   morgan(':method :url :status :response-time ms - :res[content-length]'),
 );
+app.use('/uploads', express.static('uploads'));
 
 app.use('/auth', authRouter);
 app.use('/tweets', tweetRouter);
@@ -25,6 +27,7 @@ app.use('/follows', followRouter);
 app.use('/likes', likeRouter);
 app.use('/users', userRouter);
 app.use('/search', searchRouter);
+app.use('/uploads', uploadRouter);
 
 app.use(errorHandler);
 

@@ -43,6 +43,9 @@ api.interceptors.response.use(
 
           if (typeof window !== 'undefined') {
             localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
+            if (data.refreshToken) {
+              localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken)
+            }
           }
           // Keep the Zustand store in sync with the refreshed token
           useAuthStore.setState({ accessToken: newAccessToken })

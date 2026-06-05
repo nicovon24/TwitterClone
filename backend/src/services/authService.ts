@@ -148,7 +148,7 @@ export async function refresh({
   refreshToken,
 }: {
   refreshToken: string;
-}): Promise<{ accessToken: string }> {
+}): Promise<{ accessToken: string; refreshToken: string }> {
   // Verify the refresh token JWT to extract user id
   let payload: { id: string; email: string };
   try {
@@ -183,7 +183,7 @@ export async function refresh({
   const { accessToken, refreshToken: newRefreshToken } = issueTokens(user.id, user.email);
   await storeRefreshToken(user.id, newRefreshToken);
 
-  return { accessToken };
+  return { accessToken, refreshToken: newRefreshToken };
 }
 
 export async function me(userId: string): Promise<PublicUser> {

@@ -29,6 +29,7 @@ export const tweets = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     content: varchar('content', { length: 280 }).notNull(),
+    image_url: text('image_url'),
     created_at: timestamp('created_at').notNull().defaultNow(),
     deleted_at: timestamp('deleted_at'),
   },

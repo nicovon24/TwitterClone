@@ -14,6 +14,7 @@ export const tweetRouter = Router();
 
 const createTweetSchema = z.object({
   content: z.string().min(1, 'Content is required').max(280, 'Content must be 280 chars or fewer'),
+  image_url: z.string().url().nullable().optional(),
 });
 
 // POST /tweets
@@ -24,9 +25,24 @@ tweetRouter.post('/', requireAuth, async (req: Request, res: Response): Promise<
     return;
   }
 
-  const tweet = await tweetService.createTweet(req.user!.id, parseResult.data.content);
+  const tweet = await tweetService.createTweet(req.user!.id, parseResult.data.content, parseResult.data.image_url);
   res.status(201).json(tweet);
 });
+
+// GET /tweets/:id
+tweetRouter.get('/:id', requireAuth, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const tweet = await tweetService.getTweetById(req.params.id, req.user!.id)
+    res.status(200).json(tweet)
+  } catch (err: unknown) {
+    const typed = err as { status?: number }
+    if (typed.status === 404) {
+      res.status(404).json({ error: 'Tweet not found' })
+      return
+    }
+    throw err
+  }
+})
 
 // DELETE /tweets/:id
 tweetRouter.delete('/:id', requireAuth, async (req: Request, res: Response): Promise<void> => {

@@ -78,6 +78,27 @@ export async function getProfile(username: string, requesterId?: string): Promis
   };
 }
 
+export async function updateProfile(
+  userId: string,
+  fields: { display_name?: string | null; bio?: string | null; avatar_url?: string | null },
+): Promise<{ display_name: string | null; bio: string | null; avatar_url: string | null }> {
+  const [updated] = await db
+    .update(users)
+    .set({ ...fields, updated_at: new Date() })
+    .where(eq(users.id, userId))
+    .returning({ display_name: users.display_name, bio: users.bio, avatar_url: users.avatar_url });
+  if (!updated) throw { status: 404, message: 'User not found' };
+  return {
+    display_name: updated.display_name ?? null,
+    bio: updated.bio ?? null,
+    avatar_url: updated.avatar_url ?? null,
+  };
+}
+
+export async function deleteAccount(userId: string): Promise<void> {
+  await db.delete(users).where(eq(users.id, userId));
+}
+
 export async function searchUsers(
   query: string,
   requesterId: string,
@@ -85,7 +106,7 @@ export async function searchUsers(
   limit = 20,
 ): Promise<{ users: UserSummary[]; nextCursor: string | null }> {
   const effectiveLimit = Math.min(limit, 50);
-  const pattern = `${query}%`;
+  const pattern = query.trim() ? `${query.trim()}%` : '%';
 
   const rows = await db
     .select({

@@ -7,8 +7,8 @@
 | # | Phase | Goal | Requirements | Plans |
 |---|-------|------|--------------|-------|
 | 1 | Scaffolding & Infrastructure | Monorepo running, Docker up, DB connected, migrations applied | INFR-01, INFR-02, INFR-03, INFR-04, INFR-05, PROF-03, ERRH-01, ERRH-02, ERRH-03, ERRH-04, L10N-02 | 3 |
-| 2 | Backend: Auth + Core API | All REST endpoints implemented, auth working end-to-end, integration tests passing | AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, AUTH-07, CONT-01, CONT-02, CONT-03, CONT-04, CONT-05, SOCL-01, SOCL-02, SOCL-03, SOCL-04, SOCL-05, LIKE-01, LIKE-02, LIKE-03, LIKE-04, TMEL-01, TMEL-02, TMEL-03, TMEL-04, SRCH-01, SRCH-02, PROF-01, PROF-02 | 0 |
-| 3 | Frontend: UI Core | Complete UI working end-to-end, responsive, all text in Spanish, SSE real-time | REAL-01, REAL-02, REAL-03, REAL-04, L10N-01, TEST-03 | 0 |
+| 2 | Backend: Auth + Core API | All REST endpoints implemented, auth working end-to-end, integration tests passing | AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, AUTH-07, CONT-01, CONT-02, CONT-03, CONT-04, CONT-05, SOCL-01, SOCL-02, SOCL-03, SOCL-04, SOCL-05, LIKE-01, LIKE-02, LIKE-03, LIKE-04, TMEL-01, TMEL-02, TMEL-03, TMEL-04, SRCH-01, SRCH-02, PROF-01, PROF-02 | 4 |
+| 3 | Frontend: UI Core | Complete UI working end-to-end, responsive, all text in Spanish, SSE real-time | REAL-01, REAL-02, REAL-03, REAL-04, L10N-01, TEST-03 | 6 |
 | 4 | Testing & Seed + README | E2E happy path passing, seed data, app fully demonstrable from zero | TEST-01, TEST-02, TEST-04, TEST-05, INFR-03 | 3 |
 
 ---
@@ -244,6 +244,32 @@
 2. SSE new tweet appears in feed within 1s
 3. All UI text is in Spanish
 4. 3 frontend unit test suites pass
+
+### Plan 3.5 — Tweet Detail + Backend Read Endpoints
+
+**Goal:** Individual tweet view, plus the two backend endpoints it requires.
+
+**Tasks:**
+1. Backend: `getTweetById` service + `GET /tweets/:id` route (404 on missing/deleted)
+2. Backend: `getUserTweets` service + `GET /users/:username/tweets` route (unblocks profile tweet list)
+3. Frontend: make `TweetCard` body navigate to `/tweet/:id`; action buttons `stopPropagation`
+4. Frontend: `/tweet/[id]` page reusing `TweetCard` with a back button
+
+**Note:** These two backend endpoints did NOT exist after Phase 2 — discovered while aligning the
+frontend plans with the real backend contract. `docs/api.md` is stale (says cookies + `/api` base;
+real backend uses Bearer tokens + no prefix, profile keyed by username).
+
+### Plan 3.6 — Followers / Following Lists
+
+**Goal:** Social graph list views, reusing a shared `UserCard`.
+
+**Tasks:**
+1. Extract reusable `UserCard` (avatar, name, follow toggle) shared by search/followers/following
+2. `/users/[username]/followers` page (paginated, "Cargar más")
+3. `/users/[username]/following` page
+4. Link profile follower/following counters to these lists; standardize route on `[username]`
+
+**Backend:** `GET /users/:username/followers` and `/following` already exist (Phase 2) — frontend only.
 
 ---
 

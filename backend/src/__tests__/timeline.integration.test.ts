@@ -42,14 +42,20 @@ async function followUser(followerToken: string, username: string): Promise<void
 // ---------------------------------------------------------------------------
 
 describe('GET /timeline', () => {
-  it('returns 200 with empty tweets array when user follows nobody', async () => {
-    const alice = await registerAndLogin('tlalice');
+  it('falls back to recent tweets from everyone when user follows nobody ("For you")', async () => {
+    const solo = await registerAndLogin('tlsolo');
+    const other = await registerAndLogin('tlother');
+
+    // `solo` follows nobody, yet a tweet from an unrelated user should surface.
+    const tweet = await createTweet(other.accessToken, 'for-you fallback tweet');
+
     const res = await request(app)
       .get('/timeline')
-      .set('Authorization', `Bearer ${alice.accessToken}`);
+      .set('Authorization', `Bearer ${solo.accessToken}`);
 
     expect(res.status).toBe(200);
-    expect(res.body).toMatchObject({ tweets: [], next_cursor: null });
+    const ids = (res.body.tweets as { id: string }[]).map((t) => t.id);
+    expect(ids).toContain(tweet.id);
   });
 
   it('returns only tweets from followed users, not own tweets', async () => {

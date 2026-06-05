@@ -10,12 +10,14 @@ import { broadcastToFollowers } from '../sse/sseManager.js';
 export interface TweetUser {
   id: string;
   username: string;
+  display_name: string | null;
   avatar_url: string | null;
 }
 
 export interface TweetWithUser {
   id: string;
   content: string;
+  image_url: string | null;
   created_at: Date;
   user: TweetUser;
   likes_count: number;
@@ -49,27 +51,29 @@ function decodeCursor(cursor: string): { created_at: string; id: string } {
 // createTweet
 // ---------------------------------------------------------------------------
 
-export async function createTweet(userId: string, content: string): Promise<TweetWithUser> {
+export async function createTweet(userId: string, content: string, image_url?: string | null): Promise<TweetWithUser> {
   // Insert new tweet
   const [inserted] = await db
     .insert(tweets)
-    .values({ user_id: userId, content })
+    .values({ user_id: userId, content, image_url: image_url ?? null })
     .returning();
 
   // Fetch the author to build the response shape
   const [author] = await db
-    .select({ id: users.id, username: users.username, avatar_url: users.avatar_url })
+    .select({ id: users.id, username: users.username, display_name: users.display_name, avatar_url: users.avatar_url })
     .from(users)
     .where(eq(users.id, userId));
 
   const tweetPayload: TweetWithUser = {
     id: inserted.id,
     content: inserted.content,
+    image_url: inserted.image_url ?? null,
     created_at: inserted.created_at,
     user: {
       id: author.id,
       username: author.username,
-      avatar_url: author.avatar_url,
+      display_name: author.display_name ?? null,
+      avatar_url: author.avatar_url ?? null,
     },
     likes_count: 0,
     liked_by_me: false,
@@ -118,7 +122,7 @@ export async function softDeleteTweet(tweetId: string, requesterId: string): Pro
 export async function getTimeline(
   userId: string,
   cursor?: string,
-  limit = 20,
+  limit = 10,
 ): Promise<{ tweets: TweetWithUser[]; nextCursor: string | null }> {
   const safeLimit = Math.min(limit, 50);
 
@@ -128,11 +132,11 @@ export async function getTimeline(
     .from(follows)
     .where(eq(follows.follower_id, userId));
 
-  if (followingRows.length === 0) {
-    return { tweets: [], nextCursor: null };
-  }
-
   const followingIds = followingRows.map((r) => r.following_id);
+
+  // "For you" fallback: when the user follows nobody, surface recent tweets
+  // from everyone so the home feed is never empty.
+  const globalFeed = followingIds.length === 0;
 
   // Decode cursor if provided
   let cursorDate: Date | null = null;
@@ -149,9 +153,11 @@ export async function getTimeline(
     .select({
       id: tweets.id,
       content: tweets.content,
+      image_url: tweets.image_url,
       created_at: tweets.created_at,
       user_id: tweets.user_id,
       username: users.username,
+      display_name: users.display_name,
       avatar_url: users.avatar_url,
       likes_count: sql<number>`CAST(COUNT(${likes.tweet_id}) AS INTEGER)`,
       liked_by_me: sql<number>`MAX(CASE WHEN ${likes.user_id} = ${userId} THEN 1 ELSE 0 END)`,
@@ -161,15 +167,14 @@ export async function getTimeline(
     .leftJoin(likes, eq(likes.tweet_id, tweets.id))
     .where(
       and(
-        inArray(tweets.user_id, followingIds),
+        globalFeed ? undefined : inArray(tweets.user_id, followingIds),
         isNull(tweets.deleted_at),
-        // Composite cursor: (created_at, id) < (cursorDate, cursorId)
         cursorDate !== null && cursorId !== null
           ? sql`(${tweets.created_at}, ${tweets.id}) < (${cursorDate.toISOString()}::timestamptz, ${cursorId}::uuid)`
           : undefined,
       ),
     )
-    .groupBy(tweets.id, users.username, users.avatar_url)
+    .groupBy(tweets.id, users.username, users.display_name, users.avatar_url)
     .orderBy(desc(tweets.created_at), desc(tweets.id))
     .limit(safeLimit + 1);
 
@@ -184,15 +189,149 @@ export async function getTimeline(
   const tweetList: TweetWithUser[] = page.map((row) => ({
     id: row.id,
     content: row.content,
+    image_url: row.image_url ?? null,
     created_at: row.created_at,
     user: {
       id: row.user_id,
       username: row.username,
-      avatar_url: row.avatar_url,
+      display_name: row.display_name ?? null,
+      avatar_url: row.avatar_url ?? null,
     },
     likes_count: row.likes_count,
     liked_by_me: row.liked_by_me === 1,
   }));
 
   return { tweets: tweetList, nextCursor };
+}
+
+// ---------------------------------------------------------------------------
+// getTweetById
+// ---------------------------------------------------------------------------
+
+export async function getTweetById(
+  tweetId: string,
+  requesterId: string,
+): Promise<TweetWithUser> {
+  const results = await db
+    .select({
+      id: tweets.id,
+      content: tweets.content,
+      image_url: tweets.image_url,
+      created_at: tweets.created_at,
+      user_id: tweets.user_id,
+      username: users.username,
+      display_name: users.display_name,
+      avatar_url: users.avatar_url,
+      likes_count: sql<number>`CAST(COUNT(${likes.tweet_id}) AS INTEGER)`,
+      liked_by_me: sql<number>`MAX(CASE WHEN ${likes.user_id} = ${requesterId} THEN 1 ELSE 0 END)`,
+    })
+    .from(tweets)
+    .innerJoin(users, eq(tweets.user_id, users.id))
+    .leftJoin(likes, eq(likes.tweet_id, tweets.id))
+    .where(and(eq(tweets.id, tweetId), isNull(tweets.deleted_at)))
+    .groupBy(tweets.id, users.username, users.display_name, users.avatar_url)
+    .limit(1)
+
+  if (results.length === 0) {
+    throw { status: 404, message: 'Tweet not found' }
+  }
+
+  const row = results[0]
+  return {
+    id: row.id,
+    content: row.content,
+    image_url: row.image_url ?? null,
+    created_at: row.created_at,
+    user: { id: row.user_id, username: row.username, display_name: row.display_name ?? null, avatar_url: row.avatar_url ?? null },
+    likes_count: row.likes_count,
+    liked_by_me: row.liked_by_me === 1,
+  }
+}
+
+// ---------------------------------------------------------------------------
+// getUserTweets
+// ---------------------------------------------------------------------------
+
+export async function getUserTweets(
+  username: string,
+  requesterId: string | undefined,
+  cursor?: string,
+  limit = 20,
+): Promise<{ tweets: TweetWithUser[]; nextCursor: string | null }> {
+  const safeLimit = Math.min(limit, 50)
+
+  // Resolve user id from username
+  const [userRow] = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.username, username))
+    .limit(1)
+
+  if (!userRow) {
+    throw { status: 404, message: 'User not found' }
+  }
+
+  const userId = userRow.id
+
+  let cursorDate: Date | null = null
+  let cursorId: string | null = null
+
+  if (cursor) {
+    const decoded = decodeCursor(cursor)
+    cursorDate = new Date(decoded.created_at)
+    cursorId = decoded.id
+  }
+
+  const likedByMeExpr = requesterId
+    ? sql<number>`MAX(CASE WHEN ${likes.user_id} = ${requesterId} THEN 1 ELSE 0 END)`
+    : sql<number>`0`
+
+  const results = await db
+    .select({
+      id: tweets.id,
+      content: tweets.content,
+      image_url: tweets.image_url,
+      created_at: tweets.created_at,
+      user_id: tweets.user_id,
+      username: users.username,
+      display_name: users.display_name,
+      avatar_url: users.avatar_url,
+      likes_count: sql<number>`CAST(COUNT(${likes.tweet_id}) AS INTEGER)`,
+      liked_by_me: likedByMeExpr,
+    })
+    .from(tweets)
+    .innerJoin(users, eq(tweets.user_id, users.id))
+    .leftJoin(likes, eq(likes.tweet_id, tweets.id))
+    .where(
+      and(
+        eq(tweets.user_id, userId),
+        isNull(tweets.deleted_at),
+        cursorDate !== null && cursorId !== null
+          ? sql`(${tweets.created_at}, ${tweets.id}) < (${cursorDate.toISOString()}::timestamptz, ${cursorId}::uuid)`
+          : undefined,
+      ),
+    )
+    .groupBy(tweets.id, users.username, users.display_name, users.avatar_url)
+    .orderBy(desc(tweets.created_at), desc(tweets.id))
+    .limit(safeLimit + 1)
+
+  const hasMore = results.length > safeLimit
+  const page = hasMore ? results.slice(0, safeLimit) : results
+  const nextCursor =
+    hasMore && page.length > 0
+      ? encodeCursor(page[page.length - 1].created_at, page[page.length - 1].id)
+      : null
+
+  return {
+    tweets: page.map((row) => ({
+      id: row.id,
+      content: row.content,
+      image_url: row.image_url ?? null,
+      created_at: row.created_at,
+      user: { id: row.user_id, username: row.username, display_name: row.display_name ?? null, avatar_url: row.avatar_url ?? null },
+      likes_count: row.likes_count,
+      liked_by_me: row.liked_by_me === 1,
+    })),
+    nextCursor,
+  }
 }

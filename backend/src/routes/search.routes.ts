@@ -6,7 +6,7 @@ import * as userService from '../services/userService.js';
 const router = Router();
 
 const searchQuerySchema = z.object({
-  q: z.string().min(1, 'Search query must be at least 1 character'),
+  q: z.string().default(''),
   cursor: z.string().optional(),
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });

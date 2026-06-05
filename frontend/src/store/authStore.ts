@@ -2,6 +2,7 @@ import { create } from 'zustand'
 
 export const ACCESS_TOKEN_KEY = 'accessToken'
 export const REFRESH_TOKEN_KEY = 'refreshToken'
+const USER_KEY = 'user'
 
 interface User {
   id: string
@@ -17,8 +18,17 @@ interface AuthState {
   clearAuth: () => void
 }
 
+function readUser(): User | null {
+  if (typeof window === 'undefined') return null
+  try {
+    return JSON.parse(localStorage.getItem(USER_KEY) ?? 'null')
+  } catch {
+    return null
+  }
+}
+
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
+  user: readUser(),
   accessToken:
     typeof window !== 'undefined'
       ? localStorage.getItem(ACCESS_TOKEN_KEY)
@@ -28,6 +38,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (typeof window !== 'undefined') {
       localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
       localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+      localStorage.setItem(USER_KEY, JSON.stringify(user))
     }
     set({ user, accessToken })
   },
@@ -36,6 +47,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (typeof window !== 'undefined') {
       localStorage.removeItem(ACCESS_TOKEN_KEY)
       localStorage.removeItem(REFRESH_TOKEN_KEY)
+      localStorage.removeItem(USER_KEY)
     }
     set({ user: null, accessToken: null })
   },
