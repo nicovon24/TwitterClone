@@ -128,3 +128,47 @@ Keep two separate `package.json` files (`backend/package.json` and `frontend/pac
 ### Trade-offs
 - No shared TypeScript types between backend and frontend — types are duplicated or inlined
 - Running all tests requires `cd backend && npm test && cd ../frontend && npm test`
+
+---
+
+## ADR-006 — Timeline: "For you" fallback when following nobody
+
+**Date:** 2026-06-05
+**Status:** Accepted
+
+### Context
+The home timeline (`GET /timeline`) originally returned an empty array when the authenticated user followed no one. This produced an empty home screen for brand-new accounts (and for any account that hadn't followed anyone yet), which is poor first-run UX and made the seeded demo data invisible unless logging in with a demo account.
+
+### Decision
+Add a "For you" fallback in `getTimeline` (`backend/src/services/tweetService.ts`): when the user follows nobody, drop the `inArray(tweets.user_id, followingIds)` filter and return recent non-deleted tweets from **all** users, still ordered `created_at DESC` with the same cursor pagination. When the user follows at least one account, behavior is unchanged (followed-users-only feed).
+
+### Why
+- Guarantees the home feed is never empty, mirroring X's "For you" tab behavior
+- Makes the seeded demo data discoverable from any account, including freshly registered ones
+- Minimal, contained change — only toggles one `WHERE` predicate; pagination/like aggregation untouched
+
+### Trade-offs
+- A user with zero follows sees a global feed rather than a curated one (acceptable and expected for a fresh account)
+- No personalized ranking — it is a plain reverse-chronological global feed, not an algorithmic "For you"
+
+---
+
+## ADR-007 — Auth: Refresh Token Rotation Must Return New Token to Client
+
+**Date:** 2026-06-05
+**Status:** Accepted
+
+### Context
+`POST /auth/refresh` rotates the refresh token on every use (a new token is issued and its hash stored in the DB). However, the original implementation only returned `{ accessToken }` — the new refresh token was never sent to the client. On the next 401, the Axios interceptor sent the now-invalid old refresh token → DB hash mismatch → forced logout after the first 15-minute access token expiry.
+
+### Decision
+- `authService.refresh()` returns `{ accessToken, refreshToken: newRefreshToken }`.
+- The frontend 401 interceptor (`frontend/src/lib/api.ts`) persists the new `refreshToken` in `localStorage` on every successful refresh call.
+
+### Why
+- Session rotation is a security best practice (invalidates stolen refresh tokens). It only works if the client always holds the latest token.
+- Fix is minimal — two-line change in service + one-line change in interceptor.
+
+### Trade-offs
+- The refresh token in `localStorage` is readable by JavaScript (XSS risk). This is a known trade-off documented in ADR-001; the alternative (httpOnly cookie) was ruled out at project start.
+- Rotating refresh tokens means a stolen token is single-use, limiting damage from theft.

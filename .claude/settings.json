@@ -11,7 +11,10 @@
       "Read(//c/Users/Nicolas/.claude/get-shit-done/**)",
       "Bash(gsd-sdk init *)",
       "Bash(git init *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(TEST_DATABASE_URL=\"postgres://postgres:postgres@localhost:5432/clontwitter_test\" DATABASE_URL=\"postgres://postgres:postgres@localhost:5432/clontwitter_test\" JWT_SECRET=\"test\" REFRESH_TOKEN_SECRET=\"test\" npx tsx src/db/migrate.ts)",
+      "Bash(docker exec *)",
+      "Bash(docker cp *)"
     ]
   }
 }

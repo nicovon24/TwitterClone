@@ -1,0 +1,29 @@
+# Development overlay — hot reload, no rebuilds.
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+#
+# It mounts ./backend/src and ./frontend/src into the running containers and
+# runs the dev servers (tsx watch / next dev) so source edits reload instantly.
+# The base docker-compose.yml stays production-like for `docker compose up --build`.
+#
+# Polling env vars (CHOKIDAR_USEPOLLING / WATCHPACK_POLLING) make file watching
+# reliable for bind mounts on Windows/WSL and macOS.
+
+services:
+  backend:
+    command: sh -c "npm run db:migrate && npm run db:seed && npm run dev"
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./backend/src:/app/src
+
+  frontend:
+    command: npm run dev
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:4000
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/tailwind.config.ts:/app/tailwind.config.ts

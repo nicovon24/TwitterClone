@@ -1,0 +1,39 @@
+version: "2"
+language: "es"
+tone_instructions: "Sé directo y conciso. Prioriza bugs reales y problemas de seguridad sobre estilo."
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+      - "feat/**"
+  path_filters:
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/.next/**"
+    - "!**/drizzle/**"
+    - "!**/*.lock"
+  path_instructions:
+    - path: "backend/src/**"
+      instructions: |
+        Revisar especialmente:
+        - Vulnerabilidades de seguridad (inyección SQL, exposición de datos sensibles)
+        - Errores en manejo de JWT y bcrypt
+        - Lógica de paginación por cursor
+        - Que password_hash y refresh_token_hash nunca se expongan en respuestas
+    - path: "backend/src/__tests__/**"
+      instructions: |
+        Verificar que los tests usen la base de datos real (no mocks).
+        Confirmar que beforeEach trunca todas las tablas.
+    - path: "frontend/src/**"
+      instructions: |
+        Revisar el interceptor de Axios para auto-refresh en 401.
+        Verificar que no haya loops infinitos de refresh.
+chat:
+  auto_reply: true

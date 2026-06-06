@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1780619901936,
+      "tag": "0000_faithful_la_nuit",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1780633866933,
+      "tag": "0001_broken_miracleman",
+      "breakpoints": true
+    }
+  ]
+}

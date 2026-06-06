@@ -28,6 +28,38 @@ See `docs/workflow.md` for the full SPEC → PLAN → CODE → REVIEW flow and t
 
 ---
 
+## Behavioral Guidelines
+
+These rules apply to every task. They reduce token waste, unnecessary rewrites, and scope creep.
+
+### 1. Think Before Coding
+- State assumptions explicitly before touching code. If uncertain, ask.
+- If multiple interpretations exist, present them — don't pick silently.
+- If something is unclear, stop. Name what's confusing. Ask.
+- Push back when a simpler approach exists.
+
+### 2. Simplicity First
+- Minimum code that solves the problem. Nothing speculative.
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" not requested by the user.
+- If you write 200 lines and it could be 50, rewrite it.
+
+### 3. Surgical Changes
+- Touch only what the task requires.
+- Don't improve adjacent code, comments, or formatting.
+- Match existing style, even if you'd do it differently.
+- Remove imports/variables/functions YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+### 4. Goal-Driven Execution
+- Transform every task into verifiable criteria before coding.
+  - "Add validation" → write tests for invalid inputs first, then make them pass.
+  - "Fix the bug" → reproduce it in a test, then fix it.
+- For multi-step tasks, state a brief plan with per-step verification before starting.
+
+---
+
 ## Key Invariants
 
 - **Never access Drizzle/pg directly in controllers** — use service functions in `backend/src/services/`
