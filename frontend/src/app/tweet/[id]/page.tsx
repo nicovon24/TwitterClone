@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import api from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
 import { BackIcon, HeartIcon, TrashIcon } from '@/components/icons'
+import Avatar from '@/components/Avatar'
 
 interface TweetUser {
   id: string
@@ -81,7 +82,7 @@ export default function TweetDetailPage() {
 
   return (
     <>
-      <header className="sticky top-0 bg-white/85 backdrop-blur-md border-b border-x-border px-4 py-2 flex items-center gap-6 z-20">
+      <header className="sticky top-0 bg-x-bgblur backdrop-blur-md border-b border-x-line px-4 py-2 flex items-center gap-6 z-20">
         <button
           onClick={() => router.back()}
           aria-label="Volver"
@@ -104,9 +105,7 @@ export default function TweetDetailPage() {
             onClick={() => router.push(`/users/${tweet.user.username}`)}
             className="flex items-center gap-3 mb-3 group"
           >
-            <div className="w-12 h-12 rounded-full bg-x-blue flex items-center justify-center text-white text-xl font-bold uppercase">
-              {tweet.user.username[0]}
-            </div>
+            <Avatar user={tweet.user} className="w-12 h-12" />
             <div className="text-left">
               <p className="font-bold text-[15px] text-x-black group-hover:underline">{tweet.user.username}</p>
               <p className="text-x-gray text-[15px]">@{tweet.user.username}</p>

@@ -5,7 +5,9 @@ import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
+import { useThemeStore } from '@/store/themeStore'
 import { BackIcon } from '@/components/icons'
+import Avatar from '@/components/Avatar'
 import TweetCard from '@/components/TweetCard'
 import type { Tweet } from '@/store/timelineStore'
 import { ProfileSkeleton } from '@/components/Skeletons'
@@ -29,6 +31,7 @@ export default function UserProfilePage() {
   const currentUser = useAuthStore((state) => state.user)
   const accessToken = useAuthStore((state) => state.accessToken)
   const clearAuth = useAuthStore((state) => state.clearAuth)
+  const { isDark, toggle: toggleTheme } = useThemeStore()
 
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [tweets, setTweets] = useState<Tweet[]>([])
@@ -145,7 +148,7 @@ export default function UserProfilePage() {
 
   return (
     <>
-      <header className="sticky top-0 bg-white/85 dark:bg-black/85 backdrop-blur-md border-b border-x-border dark:border-[#2f3336] px-4 py-2 flex items-center gap-6 z-20">
+      <header className="sticky top-0 bg-x-bgblur backdrop-blur-md border-b border-x-border dark:border-[#2f3336] px-4 py-2 flex items-center gap-6 z-20">
         <button
           onClick={() => router.back()}
           aria-label="Volver"
@@ -160,23 +163,33 @@ export default function UserProfilePage() {
       </header>
 
       {/* Banner */}
-      <div className="h-32 sm:h-44 bg-gradient-to-r from-x-blue/80 to-x-black" />
+      <div className="h-32 sm:h-44 bg-gradient-to-r from-x-blue/80 to-black" />
 
       {/* Profile header */}
       <div className="px-4 pb-3 border-b border-x-border dark:border-[#2f3336]">
         <div className="flex items-end justify-between -mt-10 sm:-mt-12">
-          <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full ring-4 ring-white dark:ring-black overflow-hidden shrink-0">
-            {profile.avatar_url ? (
-              <img src={profile.avatar_url} alt={profile.username} className="w-full h-full object-cover" />
-            ) : (
-              <span className="w-full h-full bg-x-blue flex items-center justify-center text-white text-3xl sm:text-4xl font-bold uppercase">
-                {profile.username[0]}
-              </span>
-            )}
+          <div className="rounded-full ring-4 ring-white dark:ring-[#181a1b] shrink-0">
+            <Avatar user={profile} className="w-20 h-20 sm:w-28 sm:h-28" />
           </div>
 
           {isOwnProfile ? (
             <div className="flex items-center gap-2 mb-1">
+              <button
+                onClick={toggleTheme}
+                aria-label={isDark ? 'Activar modo claro' : 'Activar modo oscuro'}
+                title={isDark ? 'Activar modo claro' : 'Activar modo oscuro'}
+                className="w-9 h-9 flex items-center justify-center rounded-full border border-[#cfd9de] dark:border-[#2f3336] text-x-black dark:text-[#e7e9ea] hover:bg-x-light dark:hover:bg-[#2f3336] transition-colors"
+              >
+                {isDark ? (
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" aria-hidden>
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0zM7.05 18.36l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0z" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" aria-hidden>
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
+                  </svg>
+                )}
+              </button>
               <button
                 onClick={openEdit}
                 className="rounded-full px-4 py-1.5 text-sm font-bold border border-[#cfd9de] dark:border-[#2f3336] text-x-black dark:text-[#e7e9ea] hover:bg-x-light dark:hover:bg-[#2f3336] transition-colors"
@@ -190,8 +203,8 @@ export default function UserProfilePage() {
               disabled={loadingFollow}
               className={`rounded-full px-5 py-2 text-[15px] font-bold transition-colors border mb-1 ${
                 isFollowing
-                  ? 'border-[#cfd9de] text-x-black hover:border-red-300 hover:text-red-500 hover:bg-red-50'
-                  : 'bg-x-black text-white border-x-black hover:bg-black/85'
+                  ? 'border-x-line text-x-fg hover:border-red-400 hover:text-red-500 hover:bg-red-500/10'
+                  : 'bg-x-solid text-x-solidfg border-x-solid hover:opacity-90'
               }`}
             >
               {isFollowing ? 'Siguiendo' : 'Seguir'}
@@ -276,7 +289,7 @@ export default function UserProfilePage() {
               <button
                 onClick={handleEditSave}
                 disabled={editLoading}
-                className="px-5 py-2 rounded-full text-sm font-bold bg-x-black text-white hover:bg-black/85 disabled:opacity-50 transition-colors"
+                className="px-5 py-2 rounded-full text-sm font-bold bg-x-solid text-x-solidfg hover:opacity-90 disabled:opacity-50 transition-opacity"
               >
                 {editLoading ? 'Guardando...' : 'Guardar'}
               </button>

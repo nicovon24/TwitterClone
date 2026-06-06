@@ -42,12 +42,12 @@ async function followUser(followerToken: string, username: string): Promise<void
 // ---------------------------------------------------------------------------
 
 describe('GET /timeline', () => {
-  it('falls back to recent tweets from everyone when user follows nobody ("For you")', async () => {
+  it('"For you" (default) returns tweets from everyone, even unfollowed users', async () => {
     const solo = await registerAndLogin('tlsolo');
     const other = await registerAndLogin('tlother');
 
     // `solo` follows nobody, yet a tweet from an unrelated user should surface.
-    const tweet = await createTweet(other.accessToken, 'for-you fallback tweet');
+    const tweet = await createTweet(other.accessToken, 'for-you global tweet');
 
     const res = await request(app)
       .get('/timeline')
@@ -58,7 +58,7 @@ describe('GET /timeline', () => {
     expect(ids).toContain(tweet.id);
   });
 
-  it('returns only tweets from followed users, not own tweets', async () => {
+  it('"Following" feed returns only tweets from followed users, not own tweets', async () => {
     const alice = await registerAndLogin('tlalice2');
     const bob = await registerAndLogin('tlbob2');
 
@@ -70,12 +70,27 @@ describe('GET /timeline', () => {
     await createTweet(alice.accessToken, 'alice own tweet');
 
     const res = await request(app)
-      .get('/timeline')
+      .get('/timeline?feed=following')
       .set('Authorization', `Bearer ${alice.accessToken}`);
 
     expect(res.status).toBe(200);
     expect(res.body.tweets).toHaveLength(1);
     expect(res.body.tweets[0]).toMatchObject({ content: 'hello from bob' });
+  });
+
+  it('"Following" feed is empty when the user follows nobody', async () => {
+    const loner = await registerAndLogin('tlloner');
+    const stranger = await registerAndLogin('tlstranger');
+
+    await createTweet(stranger.accessToken, 'nobody follows me');
+
+    const res = await request(app)
+      .get('/timeline?feed=following')
+      .set('Authorization', `Bearer ${loner.accessToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.tweets).toHaveLength(0);
+    expect(res.body.next_cursor).toBeNull();
   });
 
   it('excludes soft-deleted tweets from timeline', async () => {
@@ -90,7 +105,7 @@ describe('GET /timeline', () => {
       .set('Authorization', `Bearer ${bob.accessToken}`);
 
     const res = await request(app)
-      .get('/timeline')
+      .get('/timeline?feed=following')
       .set('Authorization', `Bearer ${alice.accessToken}`);
 
     expect(res.status).toBe(200);
@@ -109,7 +124,7 @@ describe('GET /timeline', () => {
     }
 
     const page1 = await request(app)
-      .get('/timeline')
+      .get('/timeline?feed=following')
       .set('Authorization', `Bearer ${alice.accessToken}`);
 
     expect(page1.status).toBe(200);
@@ -119,7 +134,7 @@ describe('GET /timeline', () => {
     const cursor: string = page1.body.next_cursor as string;
 
     const page2 = await request(app)
-      .get(`/timeline?cursor=${cursor}`)
+      .get(`/timeline?feed=following&cursor=${cursor}`)
       .set('Authorization', `Bearer ${alice.accessToken}`);
 
     expect(page2.status).toBe(200);

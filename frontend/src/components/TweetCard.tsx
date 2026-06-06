@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import api from '@/lib/api'
 import { useTimelineStore, Tweet } from '@/store/timelineStore'
 import { HeartIcon, CommentIcon, TrashIcon } from './icons'
+import Avatar from './Avatar'
 
 interface TweetCardProps {
   tweet: Tweet
@@ -55,7 +56,7 @@ export default function TweetCard({ tweet, currentUserId }: TweetCardProps) {
 
   return (
     <article
-      className="border-b border-x-border dark:border-[#2f3336] px-4 py-3 flex gap-3 hover:bg-x-light dark:hover:bg-[#16181c] cursor-pointer transition-colors animate-fade-in"
+      className="border-b border-x-line px-4 py-3 flex items-start gap-3 hover:bg-x-card cursor-pointer transition-colors animate-fade-in"
       onClick={() => router.push(`/tweet/${tweet.id}`)}
       role="link"
       tabIndex={0}
@@ -63,32 +64,26 @@ export default function TweetCard({ tweet, currentUserId }: TweetCardProps) {
     >
       <button
         onClick={goToProfile}
-        className="w-10 h-10 rounded-full shrink-0 hover:opacity-90 overflow-hidden"
+        className="shrink-0 hover:opacity-90"
         aria-label={`Ver perfil de ${tweet.user.username}`}
       >
-        {tweet.user.avatar_url ? (
-          <img src={tweet.user.avatar_url} alt={tweet.user.username} className="w-full h-full object-cover" />
-        ) : (
-          <span className="w-full h-full bg-x-blue flex items-center justify-center text-white font-bold uppercase">
-              {tweet.user.username[0]}
-            </span>
-        )}
+        <Avatar user={tweet.user} className="w-10 h-10" />
       </button>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1 text-[15px]">
           <span
             onClick={goToProfile}
-            className="font-bold text-x-black dark:text-[#e7e9ea] truncate hover:underline"
+            className="font-bold text-x-fg truncate hover:underline"
           >
             {tweet.user.display_name ?? tweet.user.username}
           </span>
-          <span className="text-x-gray truncate">@{tweet.user.username}</span>
-          <span className="text-x-gray">·</span>
-          <span className="text-x-gray hover:underline">{formattedDate}</span>
+          <span className="text-x-muted truncate">@{tweet.user.username}</span>
+          <span className="text-x-muted">·</span>
+          <span className="text-x-muted hover:underline">{formattedDate}</span>
         </div>
 
-        <p className="mt-0.5 text-[15px] leading-normal whitespace-pre-wrap break-words text-x-black dark:text-[#e7e9ea]">
+        <p className="mt-0.5 text-[15px] leading-normal whitespace-pre-wrap break-words text-x-fg">
           {tweet.content}
         </p>
 
@@ -96,7 +91,7 @@ export default function TweetCard({ tweet, currentUserId }: TweetCardProps) {
           <img
             src={tweet.image_url}
             alt="Imagen del tweet"
-            className="mt-3 rounded-2xl border border-x-border max-h-80 w-full object-cover"
+            className="mt-3 rounded-2xl border border-x-line max-h-80 w-full object-cover"
           />
         )}
 

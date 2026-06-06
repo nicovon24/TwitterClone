@@ -41,7 +41,7 @@ export default function FollowingPage() {
 
   return (
     <>
-      <header className="sticky top-0 bg-white/85 backdrop-blur-md border-b border-x-border px-4 py-2 flex items-center gap-6 z-20">
+      <header className="sticky top-0 bg-x-bgblur backdrop-blur-md border-b border-x-line px-4 py-2 flex items-center gap-6 z-20">
         <button
           onClick={() => router.back()}
           aria-label="Volver"

@@ -1,4 +1,4 @@
-import { eq, and, count } from 'drizzle-orm';
+import { eq, and, count, isNull } from 'drizzle-orm';
 import { db } from '../db/index.js';
 import { likes, tweets } from '../db/schema.js';
 
@@ -6,7 +6,7 @@ async function getTweetOrThrow(tweetId: string): Promise<void> {
   const [tweet] = await db
     .select({ id: tweets.id })
     .from(tweets)
-    .where(and(eq(tweets.id, tweetId), eq(tweets.deleted_at, null as unknown as Date)))
+    .where(and(eq(tweets.id, tweetId), isNull(tweets.deleted_at)))
     .limit(1);
   if (!tweet) {
     throw { status: 404, message: 'Tweet not found' };

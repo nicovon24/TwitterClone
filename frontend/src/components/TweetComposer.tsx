@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import api from '@/lib/api'
 import { useTimelineStore } from '@/store/timelineStore'
 import { useAuthStore } from '@/store/authStore'
+import Avatar from './Avatar'
 
 const MAX = 280
 
@@ -65,10 +66,8 @@ export default function TweetComposer() {
   }
 
   return (
-    <div className="flex gap-3 border-b border-x-border dark:border-[#2f3336] px-4 py-3">
-      <div className="w-10 h-10 rounded-full bg-x-blue flex items-center justify-center text-white font-bold uppercase shrink-0">
-        {currentUser?.username[0] ?? '?'}
-      </div>
+    <div className="flex gap-3 border-b border-x-line px-4 py-3">
+      <Avatar user={{ username: currentUser?.username ?? '?' }} className="w-10 h-10 shrink-0" />
 
       <div className="flex-1 min-w-0">
         <textarea
@@ -82,7 +81,7 @@ export default function TweetComposer() {
 
         {imagePreview && (
           <div className="relative mt-2">
-            <img src={imagePreview} alt="Preview" className="rounded-2xl max-h-60 w-full object-cover border border-x-border" />
+            <img src={imagePreview} alt="Preview" className="rounded-2xl max-h-60 w-full object-cover border border-x-line" />
             <button
               onClick={removeImage}
               className="absolute top-2 right-2 bg-black/60 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm hover:bg-black/80 transition-colors"
@@ -95,7 +94,7 @@ export default function TweetComposer() {
 
         {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
 
-        <div className="flex items-center justify-between mt-2 pt-3 border-t border-x-border dark:border-[#2f3336]">
+        <div className="flex items-center justify-between mt-2 pt-3 border-t border-x-line">
           <div>
             <input
               ref={fileInputRef}
@@ -120,7 +119,7 @@ export default function TweetComposer() {
             {content.length > 0 && (
               <>
                 <svg width="28" height="28" viewBox="0 0 28 28" className="-rotate-90">
-                  <circle cx="14" cy="14" r="10" fill="none" stroke="#eff3f4" strokeWidth="2.5" />
+                  <circle cx="14" cy="14" r="10" fill="none" stroke="rgba(113,118,123,0.35)" strokeWidth="2.5" />
                   <circle
                     cx="14" cy="14" r="10" fill="none"
                     stroke={remaining < 0 ? '#f4212e' : remaining <= 20 ? '#ffd400' : '#1d9bf0'}

@@ -9,14 +9,25 @@ const config: Config = {
     extend: {
       colors: {
         x: {
+          // Constant brand colors
           blue: '#1d9bf0',
           bluehover: '#1a8cd8',
-          black: '#0f1419',
-          gray: '#536471',
-          border: '#eff3f4',
-          hover: '#e7e7e8',
-          light: '#f7f9f9',
           like: '#f91880',
+          // Theme-aware semantic tokens (driven by CSS vars in globals.css)
+          bg: 'var(--bg)',
+          bgblur: 'var(--bg-blur)',
+          card: 'var(--card)',
+          hover: 'var(--hover)',
+          fg: 'var(--fg)',
+          muted: 'var(--muted)',
+          line: 'var(--line)',
+          solid: 'var(--solid)',
+          solidfg: 'var(--solidfg)',
+          // Legacy aliases (also theme-aware) so older class names keep working
+          black: 'var(--fg)',
+          gray: 'var(--muted)',
+          border: 'var(--line)',
+          light: 'var(--card)',
         },
       },
       keyframes: {

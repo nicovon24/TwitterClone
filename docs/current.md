@@ -16,6 +16,8 @@ Working on: UX pass + dark mode shipped. Next up: Playwright E2E, GitHub Actions
 
 ## Recently shipped
 
+- 2026-06-05 — Timeline tabs now functional: `GET /timeline?feed=for-you|following`. "Para ti" = global feed of all tweets (chronological); "Siguiendo" = only followed accounts (empty if you follow nobody). `getTimeline` takes a `feed` param; home page tabs are clickable and refetch on switch (`Timeline` accepts a `feed` prop). Integration tests updated for the new feed semantics.
+- 2026-06-05 — Sidebar account chip split: avatar/name link to own profile; logout is now its own dedicated button (no more accidental logout when tapping the chip).
 - 2026-06-05 — Dark mode (Twitter-style): `darkMode: 'class'` in Tailwind, `themeStore.ts` (Zustand, persists in localStorage, respects `prefers-color-scheme`), `ThemeProvider.tsx` init on mount. Toggle button (luna/sol) in Sidebar above account chip. Dark classes added to: AppShell, Sidebar, BottomNav, TweetCard, TweetComposer, Skeletons, home header, search page, profile page and its modals.
 - 2026-06-05 — Explore page: `GET /search/users` now accepts empty `q` (returns all users ordered by username, limit 50). Frontend loads all users on mount; typing filters debounced. Each card navigates to `/users/:username`.
 - 2026-06-05 — Profile page reorganized: own-profile header shows only "Editar perfil". "Eliminar cuenta" moved to danger zone inside the edit modal. Logout stays in Sidebar account chip (already existed).

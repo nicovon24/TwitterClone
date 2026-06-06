@@ -1,15 +1,18 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
 import { useTimelineStream } from '@/hooks/useTimelineStream'
 import TweetComposer from '@/components/TweetComposer'
 import Timeline from '@/components/Timeline'
 
+type Feed = 'for-you' | 'following'
+
 export default function HomePage() {
   const router = useRouter()
   const accessToken = useAuthStore((state) => state.accessToken)
+  const [feed, setFeed] = useState<Feed>('for-you')
 
   useTimelineStream()
 
@@ -25,19 +28,36 @@ export default function HomePage() {
 
   return (
     <>
-      <header className="sticky top-0 bg-white/85 dark:bg-black/85 backdrop-blur-md border-b border-x-border dark:border-[#2f3336] z-20">
+      <header className="sticky top-0 bg-x-bgblur backdrop-blur-md border-b border-x-line z-20">
         <div className="flex">
-          <div className="flex-1 flex items-center justify-center py-4 hover:bg-x-light dark:hover:bg-[#16181c] transition-colors cursor-pointer relative">
-            <span className="font-bold text-[15px] text-x-black dark:text-[#e7e9ea]">Para ti</span>
-            <span className="absolute bottom-0 h-1 w-14 bg-x-blue rounded-full" />
-          </div>
-          <div className="flex-1 flex items-center justify-center py-4 hover:bg-x-light dark:hover:bg-[#16181c] transition-colors cursor-pointer">
-            <span className="font-medium text-[15px] text-x-gray">Siguiendo</span>
-          </div>
+          <button
+            type="button"
+            onClick={() => setFeed('for-you')}
+            className="flex-1 flex items-center justify-center py-4 hover:bg-x-hover transition-colors cursor-pointer relative"
+          >
+            <span className={`text-[15px] ${feed === 'for-you' ? 'font-bold text-x-fg' : 'font-medium text-x-muted'}`}>
+              Para ti
+            </span>
+            {feed === 'for-you' && (
+              <span className="absolute bottom-0 h-1 w-14 bg-x-blue rounded-full" />
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={() => setFeed('following')}
+            className="flex-1 flex items-center justify-center py-4 hover:bg-x-hover transition-colors cursor-pointer relative"
+          >
+            <span className={`text-[15px] ${feed === 'following' ? 'font-bold text-x-fg' : 'font-medium text-x-muted'}`}>
+              Siguiendo
+            </span>
+            {feed === 'following' && (
+              <span className="absolute bottom-0 h-1 w-14 bg-x-blue rounded-full" />
+            )}
+          </button>
         </div>
       </header>
       <TweetComposer />
-      <Timeline />
+      <Timeline feed={feed} />
     </>
   )
 }

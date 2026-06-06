@@ -23,40 +23,40 @@ export default function RightSidebar() {
   return (
     <aside className="hidden lg:flex flex-col w-[290px] xl:w-[350px] shrink-0 pl-8 pr-2 py-2 gap-4">
       {/* Search */}
-      <form onSubmit={handleSubmit} className="sticky top-0 bg-white pt-1 z-10">
-        <div className="flex items-center gap-3 bg-x-light rounded-full px-4 py-2.5 border border-transparent focus-within:border-x-blue focus-within:bg-white transition-colors">
-          <SearchIcon className="w-5 h-5 text-x-gray shrink-0" />
+      <form onSubmit={handleSubmit} className="sticky top-0 bg-x-bg pt-1 z-10">
+        <div className="flex items-center gap-3 bg-x-card rounded-full px-4 py-2.5 border border-transparent focus-within:border-x-blue transition-colors">
+          <SearchIcon className="w-5 h-5 text-x-muted shrink-0" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => router.push('/search')}
             placeholder="Buscar"
-            className="bg-transparent w-full text-[15px] focus:outline-none placeholder-x-gray"
+            className="bg-transparent w-full text-x-fg text-[15px] focus:outline-none placeholder-x-muted"
           />
         </div>
       </form>
 
       {/* Trends */}
-      <section className="bg-x-light rounded-2xl overflow-hidden">
-        <h2 className="text-xl font-extrabold px-4 pt-3 pb-2 text-x-black">
+      <section className="bg-x-card rounded-2xl overflow-hidden">
+        <h2 className="text-xl font-extrabold px-4 pt-3 pb-2 text-x-fg">
           Qué está pasando
         </h2>
         {TRENDS.map((trend) => (
           <button
             key={trend.name}
             onClick={() => router.push('/search')}
-            className="w-full text-left px-4 py-3 hover:bg-x-hover/60 transition-colors"
+            className="w-full text-left px-4 py-3 hover:bg-x-hover transition-colors"
           >
-            <p className="text-[13px] text-x-gray">{trend.category}</p>
-            <p className="font-bold text-[15px] text-x-black">{trend.name}</p>
-            <p className="text-[13px] text-x-gray">{trend.posts}</p>
+            <p className="text-[13px] text-x-muted">{trend.category}</p>
+            <p className="font-bold text-[15px] text-x-fg">{trend.name}</p>
+            <p className="text-[13px] text-x-muted">{trend.posts}</p>
           </button>
         ))}
       </section>
 
       {/* Footer */}
-      <footer className="px-4 text-[13px] text-x-gray flex flex-wrap gap-x-3 gap-y-1">
+      <footer className="px-4 text-[13px] text-x-muted flex flex-wrap gap-x-3 gap-y-1">
         <span className="hover:underline cursor-pointer">Términos de servicio</span>
         <span className="hover:underline cursor-pointer">Política de privacidad</span>
         <span className="hover:underline cursor-pointer">Cookies</span>

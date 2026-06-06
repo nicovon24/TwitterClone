@@ -7,7 +7,9 @@ import { useAuthStore } from '@/store/authStore'
 import TweetCard from './TweetCard'
 import { TweetSkeleton } from './Skeletons'
 
-export default function Timeline() {
+type Feed = 'for-you' | 'following'
+
+export default function Timeline({ feed = 'for-you' }: { feed?: Feed }) {
   const { tweets, nextCursor, isLoading, appendTweets, setLoading, reset } = useTimelineStore()
   const user = useAuthStore((state) => state.user)
   const sentinelRef = useRef<HTMLDivElement>(null)
@@ -18,7 +20,7 @@ export default function Timeline() {
     isFetchingRef.current = true
     setLoading(true)
     try {
-      const params: Record<string, string> = {}
+      const params: Record<string, string> = { feed }
       if (cursor) params.cursor = cursor
       const { data } = await api.get('/timeline', { params })
       appendTweets(data.tweets, data.next_cursor)
@@ -31,10 +33,12 @@ export default function Timeline() {
   }
 
   useEffect(() => {
+    reset()
+    isFetchingRef.current = false
     fetchPage()
     return () => { reset() }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [feed])
 
   useEffect(() => {
     const sentinel = sentinelRef.current
@@ -70,7 +74,9 @@ export default function Timeline() {
 
       {!isLoading && tweets.length === 0 && (
         <p className="text-center p-8 text-x-gray text-sm">
-          Tu timeline está vacío. ¡Seguí a alguien para ver sus tweets!
+          {feed === 'following'
+            ? 'Todavía no sigues a nadie. ¡Seguí cuentas para ver sus tweets acá!'
+            : 'Todavía no hay tweets. ¡Sé el primero en postear!'}
         </p>
       )}
 

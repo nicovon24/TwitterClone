@@ -74,9 +74,10 @@ timelineRouter.get('/', requireAuth, async (req: Request, res: Response): Promis
   const cursor = typeof req.query.cursor === 'string' ? req.query.cursor : undefined;
   const rawLimit = Number(req.query.limit);
   const limit = !isNaN(rawLimit) && rawLimit > 0 ? Math.min(rawLimit, 50) : 20;
+  const feed: tweetService.TimelineFeed = req.query.feed === 'following' ? 'following' : 'for-you';
 
   try {
-    const result = await tweetService.getTimeline(req.user!.id, cursor, limit);
+    const result = await tweetService.getTimeline(req.user!.id, feed, cursor, limit);
     res.status(200).json({ tweets: result.tweets, next_cursor: result.nextCursor });
   } catch (err: unknown) {
     const typed = err as { status?: number; message?: string };

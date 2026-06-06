@@ -70,23 +70,23 @@ export default function RegisterPage() {
   }
 
   const inputClass =
-    'border border-[#cfd9de] rounded-md px-3 py-3.5 text-[15px] focus:outline-none focus:border-x-blue focus:ring-1 focus:ring-x-blue transition'
+    'bg-transparent text-x-fg border border-x-line rounded-md px-3 py-3.5 text-[15px] placeholder-x-muted focus:outline-none focus:border-x-blue focus:ring-1 focus:ring-x-blue transition'
 
   return (
     <main className="min-h-screen flex">
       {/* Brand panel */}
-      <div className="hidden md:flex flex-1 bg-x-black items-center justify-center">
+      <div className="hidden md:flex flex-1 bg-black items-center justify-center">
         <LogoIcon className="w-60 h-60 text-white" />
       </div>
 
       {/* Form panel */}
       <div className="flex-1 flex flex-col justify-center px-6 sm:px-16 lg:px-24 py-12">
         <div className="w-full max-w-[400px] mx-auto">
-          <LogoIcon className="w-10 h-10 text-x-black mb-8 md:hidden" />
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-x-black mb-2">
+          <LogoIcon className="w-10 h-10 text-x-fg mb-8 md:hidden" />
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-x-fg mb-2">
             Unite hoy.
           </h1>
-          <h2 className="text-2xl font-bold text-x-black mt-10 mb-6">Creá tu cuenta</h2>
+          <h2 className="text-2xl font-bold text-x-fg mt-10 mb-6">Creá tu cuenta</h2>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
@@ -122,7 +122,7 @@ export default function RegisterPage() {
             />
 
             {error && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+              <p className="text-sm text-red-600 bg-red-500/10 border border-red-500/30 rounded-md px-3 py-2">
                 {error}
               </p>
             )}
@@ -130,13 +130,13 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="bg-x-black hover:bg-black/85 disabled:opacity-50 text-white font-bold rounded-full py-3.5 text-[15px] transition-colors mt-1"
+              className="bg-x-solid text-x-solidfg hover:opacity-90 disabled:opacity-50 font-bold rounded-full py-3.5 text-[15px] transition-opacity mt-1"
             >
               {loading ? 'Creando cuenta...' : 'Crear cuenta'}
             </button>
           </form>
 
-          <p className="mt-10 text-[15px] text-x-gray">
+          <p className="mt-10 text-[15px] text-x-muted">
             ¿Ya tenés cuenta?{' '}
             <Link href="/login" className="text-x-blue hover:underline font-medium">
               Iniciá sesión

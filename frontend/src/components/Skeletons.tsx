@@ -25,7 +25,7 @@ export function ProfileSkeleton() {
       <div className="h-32 sm:h-44 animate-pulse bg-x-border" />
       <div className="px-4 pb-3 border-b border-x-border dark:border-[#2f3336]">
         <div className="flex items-end justify-between -mt-10 sm:-mt-12">
-          <Shimmer className="w-20 h-20 sm:w-28 sm:h-28 rounded-full ring-4 ring-white" />
+          <Shimmer className="w-20 h-20 sm:w-28 sm:h-28 rounded-full ring-4 ring-x-bg" />
           <Shimmer className="h-9 w-24 rounded-full mb-1" />
         </div>
         <div className="mt-4 space-y-2">

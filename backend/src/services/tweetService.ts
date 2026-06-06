@@ -119,24 +119,32 @@ export async function softDeleteTweet(tweetId: string, requesterId: string): Pro
 // getTimeline
 // ---------------------------------------------------------------------------
 
+export type TimelineFeed = 'for-you' | 'following';
+
 export async function getTimeline(
   userId: string,
+  feed: TimelineFeed = 'for-you',
   cursor?: string,
   limit = 10,
 ): Promise<{ tweets: TweetWithUser[]; nextCursor: string | null }> {
   const safeLimit = Math.min(limit, 50);
 
-  // Resolve the set of users that userId follows
-  const followingRows = await db
-    .select({ following_id: follows.following_id })
-    .from(follows)
-    .where(eq(follows.follower_id, userId));
+  // "following" feed is scoped to the accounts the user follows. "for-you" is
+  // a global feed of every tweet, so it skips the follow lookup entirely.
+  let followingIds: string[] = [];
+  if (feed === 'following') {
+    const followingRows = await db
+      .select({ following_id: follows.following_id })
+      .from(follows)
+      .where(eq(follows.follower_id, userId));
 
-  const followingIds = followingRows.map((r) => r.following_id);
+    followingIds = followingRows.map((r) => r.following_id);
 
-  // "For you" fallback: when the user follows nobody, surface recent tweets
-  // from everyone so the home feed is never empty.
-  const globalFeed = followingIds.length === 0;
+    // Following nobody → empty feed. The "Para ti" tab is the discovery path.
+    if (followingIds.length === 0) {
+      return { tweets: [], nextCursor: null };
+    }
+  }
 
   // Decode cursor if provided
   let cursorDate: Date | null = null;
@@ -167,7 +175,7 @@ export async function getTimeline(
     .leftJoin(likes, eq(likes.tweet_id, tweets.id))
     .where(
       and(
-        globalFeed ? undefined : inArray(tweets.user_id, followingIds),
+        feed === 'following' ? inArray(tweets.user_id, followingIds) : undefined,
         isNull(tweets.deleted_at),
         cursorDate !== null && cursorId !== null
           ? sql`(${tweets.created_at}, ${tweets.id}) < (${cursorDate.toISOString()}::timestamptz, ${cursorId}::uuid)`

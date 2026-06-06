@@ -26,7 +26,7 @@ export default function BottomNav() {
   }
 
   return (
-    <nav className="flex sm:hidden fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-black/90 backdrop-blur border-t border-x-border dark:border-[#2f3336] z-50">
+    <nav className="flex sm:hidden fixed bottom-0 left-0 right-0 bg-x-bgblur backdrop-blur border-t border-x-line z-50">
       {navItems.map(({ href, label, Icon }) => {
         const active = pathname === href
         return (
@@ -38,7 +38,7 @@ export default function BottomNav() {
           >
             <Icon
               active={active}
-              className={`w-6 h-6 ${active ? 'text-x-black dark:text-[#e7e9ea]' : 'text-x-gray'}`}
+              className={`w-6 h-6 ${active ? 'text-x-fg' : 'text-x-muted'}`}
             />
           </Link>
         )

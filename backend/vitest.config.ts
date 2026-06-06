@@ -8,8 +8,9 @@ export default defineConfig({
     globalSetup: ['src/__tests__/globalSetup.ts'],
     setupFiles: ['src/__tests__/setup.ts'],
     testTimeout: 30000,
-    // Run all test files in a single worker so module-level db client is
-    // initialised only once (after globalSetup has set DATABASE_URL).
+    // Run all test files sequentially in the same worker so beforeEach TRUNCATE
+    // in setup.ts provides clean-slate isolation without inter-file races.
+    fileParallelism: false,
     poolOptions: {
       forks: {
         singleFork: true,

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
+import Avatar from './Avatar'
 
 export interface UserSummary {
   id: string
@@ -45,17 +46,15 @@ export default function UserCard({ user }: UserCardProps) {
   }
 
   return (
-    <div className="flex items-center gap-3 px-4 py-3 border-b border-x-border hover:bg-x-light transition-colors">
+    <div className="flex items-center gap-3 px-4 py-3 border-b border-x-line hover:bg-x-card transition-colors">
       <Link href={`/users/${user.username}`} className="flex items-center gap-3 flex-1 min-w-0">
-        <div className="w-11 h-11 rounded-full bg-x-blue flex items-center justify-center text-white font-bold uppercase shrink-0">
-          {user.username[0]}
-        </div>
+        <Avatar user={user} className="w-11 h-11 shrink-0" />
         <div className="min-w-0">
-          <p className="font-bold text-[15px] text-x-black truncate hover:underline">
+          <p className="font-bold text-[15px] text-x-fg truncate hover:underline">
             {user.display_name ?? user.username}
           </p>
-          <p className="text-x-gray text-[15px]">@{user.username}</p>
-          {user.bio && <p className="text-x-gray text-sm truncate mt-0.5">{user.bio}</p>}
+          <p className="text-x-muted text-[15px]">@{user.username}</p>
+          {user.bio && <p className="text-x-muted text-sm truncate mt-0.5">{user.bio}</p>}
         </div>
       </Link>
 
@@ -65,8 +64,8 @@ export default function UserCard({ user }: UserCardProps) {
           disabled={loading}
           className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-bold transition-colors border ${
             following
-              ? 'border-[#cfd9de] text-x-black hover:border-red-300 hover:text-red-500 hover:bg-red-50'
-              : 'bg-x-black text-white border-x-black hover:bg-black/85'
+              ? 'border-x-line text-x-fg hover:border-red-400 hover:text-red-500 hover:bg-red-500/10'
+              : 'bg-x-solid text-x-solidfg border-x-solid hover:opacity-90'
           }`}
         >
           {following ? 'Siguiendo' : 'Seguir'}

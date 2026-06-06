@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Semantic theme tokens. Components use a single set of classes
+ * (bg-x-bg, text-x-fg, border-x-line, ...) that resolve to these
+ * variables, so light/dark switch automatically with the `.dark`
+ * class on <html>. Dark ("lights out", like X) is the default.
+ */
+:root {
+  --bg: #ffffff;
+  --bg-blur: rgba(255, 255, 255, 0.85);
+  --card: #f7f9f9;
+  --hover: #e7e7e8;
+  --fg: #0f1419;
+  --muted: #536471;
+  --line: #eff3f4;
+  --solid: #0f1419;
+  --solidfg: #ffffff;
+}
+
+.dark {
+  --bg: #181a1b;
+  --bg-blur: rgba(24, 26, 27, 0.65);
+  --card: #16181c;
+  --hover: #1c1f23;
+  --fg: #e7e9ea;
+  --muted: #71767b;
+  --line: #2f3336;
+  --solid: #eff3f4;
+  --solidfg: #0f1419;
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
@@ -9,21 +39,22 @@
   }
 
   body {
-    @apply bg-white text-x-black font-sans;
+    background-color: var(--bg);
+    color: var(--fg);
+    @apply font-sans;
   }
 }
 
 @layer utilities {
-  /* Thin scrollbar that matches X's restrained look */
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: #cfd9de transparent;
+    scrollbar-color: var(--line) transparent;
   }
   .scrollbar-thin::-webkit-scrollbar {
     width: 8px;
   }
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: #cfd9de;
+    background-color: var(--line);
     border-radius: 9999px;
   }
 

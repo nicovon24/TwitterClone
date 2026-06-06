@@ -13,9 +13,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Default to dark ("lights out"); the inline script honors a saved preference
+  // before first paint to avoid a flash of the wrong theme.
+  const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})()`
+
   return (
-    <html lang="es">
-      <body className="bg-white text-x-black dark:bg-black dark:text-[#e7e9ea]">
+    <html lang="es" className="dark">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
         <ThemeProvider>
           <AppShell>{children}</AppShell>
         </ThemeProvider>
