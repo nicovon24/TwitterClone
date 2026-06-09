@@ -18,6 +18,7 @@ next-env.d.ts
 # Test artifacts
 coverage/
 playwright-report/
+test-results/
 
 # OS
 .DS_Store
