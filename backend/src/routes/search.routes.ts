@@ -6,7 +6,8 @@ import * as userService from '../services/userService.js';
 const router = Router();
 
 const searchQuerySchema = z.object({
-  q: z.string().min(1, 'q is required'),
+  // Empty q is allowed: it lists all users (used by the Explore page).
+  q: z.string().default(''),
   cursor: z.string().optional(),
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });

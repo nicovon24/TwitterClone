@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Sidebar from './Sidebar'
 import BottomNav from './BottomNav'
@@ -10,6 +11,13 @@ const AUTH_ROUTES = ['/login', '/register']
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAuthRoute = AUTH_ROUTES.includes(pathname)
+
+  // Auth state is read from localStorage, which only exists on the client.
+  // Defer rendering until after mount so the first client render matches the
+  // server-rendered HTML and React doesn't throw a hydration error (#423).
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return null
 
   if (isAuthRoute) {
     return <>{children}</>

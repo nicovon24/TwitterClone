@@ -3,7 +3,7 @@ import { z } from 'zod';
 import * as userService from '../services/userService.js';
 import * as followService from '../services/followService.js';
 import * as tweetService from '../services/tweetService.js';
-import { requireAuth } from '../middleware/requireAuth.js';
+import { requireAuth, optionalAuth } from '../middleware/requireAuth.js';
 
 const router = Router();
 
@@ -31,7 +31,7 @@ router.delete('/me', requireAuth, async (req: Request, res: Response): Promise<v
 });
 
 // GET /users/:username/tweets — list a user's tweets (auth optional)
-router.get('/:username/tweets', async (req: Request, res: Response): Promise<void> => {
+router.get('/:username/tweets', optionalAuth, async (req: Request, res: Response): Promise<void> => {
   const requesterId = req.user?.id;
   const cursor = typeof req.query.cursor === 'string' ? req.query.cursor : undefined;
   const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 20;
@@ -48,15 +48,15 @@ router.get('/:username/tweets', async (req: Request, res: Response): Promise<voi
   }
 });
 
-// GET /users/:username — public profile (no auth required)
-router.get('/:username', async (req: Request, res: Response): Promise<void> => {
+// GET /users/:username — public profile (auth optional, personalizes is_following)
+router.get('/:username', optionalAuth, async (req: Request, res: Response): Promise<void> => {
   const requesterId = req.user?.id;
   const profile = await userService.getProfile(req.params.username, requesterId);
   res.status(200).json(profile);
 });
 
-// GET /users/:username/followers — list followers (no auth required)
-router.get('/:username/followers', async (req: Request, res: Response): Promise<void> => {
+// GET /users/:username/followers — list followers (auth optional, personalizes is_following)
+router.get('/:username/followers', optionalAuth, async (req: Request, res: Response): Promise<void> => {
   const requesterId = req.user?.id;
   const cursor = typeof req.query.cursor === 'string' ? req.query.cursor : undefined;
   const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 20;
@@ -64,8 +64,8 @@ router.get('/:username/followers', async (req: Request, res: Response): Promise<
   res.status(200).json({ users: result.users, next_cursor: result.nextCursor });
 });
 
-// GET /users/:username/following — list following (no auth required)
-router.get('/:username/following', async (req: Request, res: Response): Promise<void> => {
+// GET /users/:username/following — list following (auth optional, personalizes is_following)
+router.get('/:username/following', optionalAuth, async (req: Request, res: Response): Promise<void> => {
   const requesterId = req.user?.id;
   const cursor = typeof req.query.cursor === 'string' ? req.query.cursor : undefined;
   const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 20;

@@ -296,7 +296,6 @@ export default function UserProfilePage() {
             </div>
 
             <div className="mt-6 pt-4 border-t border-x-border">
-              <p className="text-xs text-x-gray mb-2">Zona de peligro</p>
               <button
                 onClick={() => { setEditOpen(false); setDeleteConfirm(true) }}
                 className="text-sm font-bold text-red-500 hover:underline"

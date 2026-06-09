@@ -21,9 +21,10 @@ const EGG_COLORS = [
 ]
 
 function colorForUsername(username: string): string {
+  const name = username ?? ''
   let hash = 0
-  for (let i = 0; i < username.length; i++) {
-    hash = (hash * 31 + username.charCodeAt(i)) >>> 0
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) >>> 0
   }
   return EGG_COLORS[hash % EGG_COLORS.length]
 }
