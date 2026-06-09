@@ -50,31 +50,31 @@ const SEED_USERS: SeedUser[] = [
     bio: 'Estudiante de ciencia de datos. Curiosa serial.',
   },
   {
-    username: 'nico_photo',
+    username: 'nicolas_v',
     email: 'nico@clontwitter.dev',
     display_name: 'Nicolás Vargas',
     bio: 'Fotógrafo urbano 📷 | Buenos Aires de noche',
   },
   {
-    username: 'caro_reads',
+    username: 'carolina_l',
     email: 'caro@clontwitter.dev',
     display_name: 'Carolina López',
     bio: 'Lectora compulsiva. Recomiendo libros que no te van a gustar.',
   },
   {
-    username: 'mateo_ux',
+    username: 'mateo_h',
     email: 'mateo@clontwitter.dev',
     display_name: 'Mateo Herrera',
     bio: 'UX researcher. Entiendo a los usuarios mejor que ellos mismos.',
   },
   {
-    username: 'juli_runs',
+    username: 'julieta_m',
     email: 'juli@clontwitter.dev',
     display_name: 'Julieta Moreno',
     bio: 'Maratonista amateur 🏃‍♀️ | Comida sana, vida caótica',
   },
   {
-    username: 'pablito_ml',
+    username: 'pablo_c',
     email: 'pablo@clontwitter.dev',
     display_name: 'Pablo Castillo',
     bio: 'Machine learning engineer. Entreno modelos y también mis brazos.',
@@ -147,65 +147,65 @@ const SEED_TWEETS: SeedTweet[] = [
   { author: 'valen', content: 'Si tus datos están limpios, desconfiá. Algo estás pasando por alto.' },
   { author: 'valen', content: 'Terminé el curso. Lo que sigue es aplicarlo. Eso da más miedo que el curso.' },
 
-  // nico_photo (fotografía)
-  { author: 'nico_photo', content: 'Hora dorada en el Riachuelo. La luz era perfecta esta tarde 📷' },
-  { author: 'nico_photo', content: 'Film vs digital: la discusión eterna que nunca voy a ganar.' },
-  { author: 'nico_photo', content: 'Cuatro rollos revelados. Tres fotos salvables. La fotografía analógica es así.' },
-  { author: 'nico_photo', content: 'El mejor momento del día: revisar fotos de noche con un café.' },
-  { author: 'nico_photo', content: 'Buenos Aires tiene una magia particular después de la lluvia.' },
-  { author: 'nico_photo', content: 'Gear no importa si no sabés mirar. Pero igual quiero esa lente.' },
-  { author: 'nico_photo', content: 'Retratando a personas desconocidas en el subte. La ciudad nunca para.' },
-  { author: 'nico_photo', content: 'La foto perfecta existe. Estás cinco segundos tarde siempre.' },
-  { author: 'nico_photo', content: 'Palermo de madrugada, sin turistas. La ciudad que más me gusta.' },
-  { author: 'nico_photo', content: 'Primer exposición propia el mes que viene. Nervios al 100%.' },
+  // nicolas_v (fotografía)
+  { author: 'nicolas_v', content: 'Hora dorada en el Riachuelo. La luz era perfecta esta tarde 📷' },
+  { author: 'nicolas_v', content: 'Film vs digital: la discusión eterna que nunca voy a ganar.' },
+  { author: 'nicolas_v', content: 'Cuatro rollos revelados. Tres fotos salvables. La fotografía analógica es así.' },
+  { author: 'nicolas_v', content: 'El mejor momento del día: revisar fotos de noche con un café.' },
+  { author: 'nicolas_v', content: 'Buenos Aires tiene una magia particular después de la lluvia.' },
+  { author: 'nicolas_v', content: 'Gear no importa si no sabés mirar. Pero igual quiero esa lente.' },
+  { author: 'nicolas_v', content: 'Retratando a personas desconocidas en el subte. La ciudad nunca para.' },
+  { author: 'nicolas_v', content: 'La foto perfecta existe. Estás cinco segundos tarde siempre.' },
+  { author: 'nicolas_v', content: 'Palermo de madrugada, sin turistas. La ciudad que más me gusta.' },
+  { author: 'nicolas_v', content: 'Primer exposición propia el mes que viene. Nervios al 100%.' },
 
-  // caro_reads (libros)
-  { author: 'caro_reads', content: 'Terminé "Las correcciones" de Franzen. Uf.' },
-  { author: 'caro_reads', content: 'La mejor inversión que podés hacer: un buen marcador de páginas.' },
-  { author: 'caro_reads', content: 'Releyendo a Borges. Cada vez entiendo menos y disfruto más.' },
-  { author: 'caro_reads', content: 'Hay un olor específico de los libros viejos que es básicamente serotonina.' },
-  { author: 'caro_reads', content: 'Recomendación: "La uruguaya" de Pedro Mairal. Corta, perfecta.' },
-  { author: 'caro_reads', content: '¿Alguien más tiene más libros comprados sin leer que años de vida le quedan?' },
-  { author: 'caro_reads', content: 'Feria del libro próxima semana. Presupuesto: $5000. Realidad: $15000.' },
-  { author: 'caro_reads', content: 'No existe el "libro difícil". Existe el libro para el que todavía no estás listo.' },
-  { author: 'caro_reads', content: 'Salinger a los 20, Salinger a los 30: dos libros completamente distintos.' },
-  { author: 'caro_reads', content: 'Recomiéndame el último libro que te dejó sin palabras. Necesito nuevas lecturas.' },
+  // carolina_l (libros)
+  { author: 'carolina_l', content: 'Terminé "Las correcciones" de Franzen. Uf.' },
+  { author: 'carolina_l', content: 'La mejor inversión que podés hacer: un buen marcador de páginas.' },
+  { author: 'carolina_l', content: 'Releyendo a Borges. Cada vez entiendo menos y disfruto más.' },
+  { author: 'carolina_l', content: 'Hay un olor específico de los libros viejos que es básicamente serotonina.' },
+  { author: 'carolina_l', content: 'Recomendación: "La uruguaya" de Pedro Mairal. Corta, perfecta.' },
+  { author: 'carolina_l', content: '¿Alguien más tiene más libros comprados sin leer que años de vida le quedan?' },
+  { author: 'carolina_l', content: 'Feria del libro próxima semana. Presupuesto: $5000. Realidad: $15000.' },
+  { author: 'carolina_l', content: 'No existe el "libro difícil". Existe el libro para el que todavía no estás listo.' },
+  { author: 'carolina_l', content: 'Salinger a los 20, Salinger a los 30: dos libros completamente distintos.' },
+  { author: 'carolina_l', content: 'Recomiéndame el último libro que te dejó sin palabras. Necesito nuevas lecturas.' },
 
-  // mateo_ux (research)
-  { author: 'mateo_ux', content: 'Cinco entrevistas de usuarios en un día. Mi cabeza necesita un reset.' },
-  { author: 'mateo_ux', content: 'El insight más valioso de hoy: nadie entiende el onboarding. Nadie.' },
-  { author: 'mateo_ux', content: 'UX tip: preguntá "¿por qué?" cinco veces. Recién ahí vas a entender el problema real.' },
-  { author: 'mateo_ux', content: 'El mejor test de usabilidad es ver a tu mamá usar el producto.' },
-  { author: 'mateo_ux', content: 'Presentación de findings hoy. El equipo de producto se quedó callado. Éxito.' },
-  { author: 'mateo_ux', content: 'Diseñar para el usuario promedio es diseñar para nadie.' },
-  { author: 'mateo_ux', content: 'Heatmap nuevo del producto. El 90% de los clics van a un botón que queremos eliminar.' },
-  { author: 'mateo_ux', content: 'Accesibilidad no es un nice-to-have. Es parte del trabajo.' },
-  { author: 'mateo_ux', content: 'Tres horas de síntesis de research. Pero encontré el patrón que necesitaba.' },
-  { author: 'mateo_ux', content: 'La empatía es una herramienta de trabajo, no solo una cualidad personal.' },
+  // mateo_h (research)
+  { author: 'mateo_h', content: 'Cinco entrevistas de usuarios en un día. Mi cabeza necesita un reset.' },
+  { author: 'mateo_h', content: 'El insight más valioso de hoy: nadie entiende el onboarding. Nadie.' },
+  { author: 'mateo_h', content: 'UX tip: preguntá "¿por qué?" cinco veces. Recién ahí vas a entender el problema real.' },
+  { author: 'mateo_h', content: 'El mejor test de usabilidad es ver a tu mamá usar el producto.' },
+  { author: 'mateo_h', content: 'Presentación de findings hoy. El equipo de producto se quedó callado. Éxito.' },
+  { author: 'mateo_h', content: 'Diseñar para el usuario promedio es diseñar para nadie.' },
+  { author: 'mateo_h', content: 'Heatmap nuevo del producto. El 90% de los clics van a un botón que queremos eliminar.' },
+  { author: 'mateo_h', content: 'Accesibilidad no es un nice-to-have. Es parte del trabajo.' },
+  { author: 'mateo_h', content: 'Tres horas de síntesis de research. Pero encontré el patrón que necesitaba.' },
+  { author: 'mateo_h', content: 'La empatía es una herramienta de trabajo, no solo una cualidad personal.' },
 
-  // juli_runs (running/fitness)
-  { author: 'juli_runs', content: '21k completados esta mañana. Las piernas dicen que no, la cabeza dice que sí 🏃‍♀️' },
-  { author: 'juli_runs', content: 'Meal prep domingo. La semana no me va a ganar.' },
-  { author: 'juli_runs', content: 'El kilómetro 18 de un maratón es donde el cuerpo negocia con el alma.' },
-  { author: 'juli_runs', content: 'Avena con frutas a las 6am. No me pregunten por qué, tampoco lo entiendo.' },
-  { author: 'juli_runs', content: 'Lesión en la rodilla. Dos semanas sin correr. Existencial crisis activada.' },
-  { author: 'juli_runs', content: 'Primer maratón de Buenos Aires registrada. Seis meses de entrenamiento en juego.' },
-  { author: 'juli_runs', content: 'Correr de noche por el Rosedal: experiencia completamente distinta.' },
-  { author: 'juli_runs', content: 'Hidratación. Siempre hidratación. Eso es todo lo que tengo para decir hoy.' },
-  { author: 'juli_runs', content: 'PR nuevo en los 10k. No lo puedo creer todavía.' },
-  { author: 'juli_runs', content: 'El running me enseñó más sobre perseverancia que cualquier libro de autoayuda.' },
+  // julieta_m (running/fitness)
+  { author: 'julieta_m', content: '21k completados esta mañana. Las piernas dicen que no, la cabeza dice que sí 🏃‍♀️' },
+  { author: 'julieta_m', content: 'Meal prep domingo. La semana no me va a ganar.' },
+  { author: 'julieta_m', content: 'El kilómetro 18 de un maratón es donde el cuerpo negocia con el alma.' },
+  { author: 'julieta_m', content: 'Avena con frutas a las 6am. No me pregunten por qué, tampoco lo entiendo.' },
+  { author: 'julieta_m', content: 'Lesión en la rodilla. Dos semanas sin correr. Existencial crisis activada.' },
+  { author: 'julieta_m', content: 'Primer maratón de Buenos Aires registrada. Seis meses de entrenamiento en juego.' },
+  { author: 'julieta_m', content: 'Correr de noche por el Rosedal: experiencia completamente distinta.' },
+  { author: 'julieta_m', content: 'Hidratación. Siempre hidratación. Eso es todo lo que tengo para decir hoy.' },
+  { author: 'julieta_m', content: 'PR nuevo en los 10k. No lo puedo creer todavía.' },
+  { author: 'julieta_m', content: 'El running me enseñó más sobre perseverancia que cualquier libro de autoayuda.' },
 
-  // pablito_ml (ML)
-  { author: 'pablito_ml', content: 'Modelo nuevo en producción. F1-score: 0.94. Buenas noticias para un lunes.' },
-  { author: 'pablito_ml', content: 'Transformer attention es magia que entendés y no entendés a la vez.' },
-  { author: 'pablito_ml', content: 'El problema con los LLMs no es la alucinación. Es que confían demasiado en sí mismos.' },
-  { author: 'pablito_ml', content: 'CUDA out of memory. El villano final de todo proyecto de ML.' },
-  { author: 'pablito_ml', content: 'Feature engineering bien hecho > modelo complejo mal alimentado.' },
-  { author: 'pablito_ml', content: 'Revisando papers de 2019 que hoy son "básicos". El campo avanza rápido.' },
-  { author: 'pablito_ml', content: 'Experimento fallido hoy. Hipótesis incorrecta, pero aprendí el doble.' },
-  { author: 'pablito_ml', content: 'El bias en datos de entrenamiento no es un bug. Es un reflejo del mundo. Eso es peor.' },
-  { author: 'pablito_ml', content: 'Gym + modelo de clasificación: los dos me hacen sudar un martes.' },
-  { author: 'pablito_ml', content: 'Charla de ML mañana. Preparé 40 slides. Voy a usar 15.' },
+  // pablo_c (ML)
+  { author: 'pablo_c', content: 'Modelo nuevo en producción. F1-score: 0.94. Buenas noticias para un lunes.' },
+  { author: 'pablo_c', content: 'Transformer attention es magia que entendés y no entendés a la vez.' },
+  { author: 'pablo_c', content: 'El problema con los LLMs no es la alucinación. Es que confían demasiado en sí mismos.' },
+  { author: 'pablo_c', content: 'CUDA out of memory. El villano final de todo proyecto de ML.' },
+  { author: 'pablo_c', content: 'Feature engineering bien hecho > modelo complejo mal alimentado.' },
+  { author: 'pablo_c', content: 'Revisando papers de 2019 que hoy son "básicos". El campo avanza rápido.' },
+  { author: 'pablo_c', content: 'Experimento fallido hoy. Hipótesis incorrecta, pero aprendí el doble.' },
+  { author: 'pablo_c', content: 'El bias en datos de entrenamiento no es un bug. Es un reflejo del mundo. Eso es peor.' },
+  { author: 'pablo_c', content: 'Gym + modelo de clasificación: los dos me hacen sudar un martes.' },
+  { author: 'pablo_c', content: 'Charla de ML mañana. Preparé 40 slides. Voy a usar 15.' },
 ];
 
 // Follows: each user follows a subset of the others (not all to keep it realistic)
@@ -226,55 +226,55 @@ const SEED_FOLLOWS: Array<[string, string]> = [
   // valen follows
   ['valen', 'pablito_ml'], ['valen', 'lucas_dev'], ['valen', 'martina'],
   ['valen', 'mateo_ux'], ['valen', 'sofia_g'],
-  // nico_photo follows
-  ['nico_photo', 'martina'], ['nico_photo', 'caro_reads'], ['nico_photo', 'juli_runs'],
-  ['nico_photo', 'sofia_g'], ['nico_photo', 'mateo_ux'],
-  // caro_reads follows
-  ['caro_reads', 'sofia_g'], ['caro_reads', 'martina'], ['caro_reads', 'nico_photo'],
-  ['caro_reads', 'juli_runs'], ['caro_reads', 'tomas'],
-  // mateo_ux follows
-  ['mateo_ux', 'martina'], ['mateo_ux', 'lucas_dev'], ['mateo_ux', 'valen'],
-  ['mateo_ux', 'sofia_g'], ['mateo_ux', 'pablito_ml'],
-  // juli_runs follows
-  ['juli_runs', 'valen'], ['juli_runs', 'tomas'], ['juli_runs', 'nico_photo'],
-  ['juli_runs', 'caro_reads'], ['juli_runs', 'pablito_ml'],
-  // pablito_ml follows
-  ['pablito_ml', 'valen'], ['pablito_ml', 'lucas_dev'], ['pablito_ml', 'mateo_ux'],
-  ['pablito_ml', 'tomas'], ['pablito_ml', 'sofia_g'],
+  // nicolas_v follows
+  ['nicolas_v', 'martina'], ['nicolas_v', 'carolina_l'], ['nicolas_v', 'julieta_m'],
+  ['nicolas_v', 'sofia_g'], ['nicolas_v', 'mateo_h'],
+  // carolina_l follows
+  ['carolina_l', 'sofia_g'], ['carolina_l', 'martina'], ['carolina_l', 'nicolas_v'],
+  ['carolina_l', 'julieta_m'], ['carolina_l', 'tomas'],
+  // mateo_h follows
+  ['mateo_h', 'martina'], ['mateo_h', 'lucas_dev'], ['mateo_h', 'valen'],
+  ['mateo_h', 'sofia_g'], ['mateo_h', 'pablo_c'],
+  // julieta_m follows
+  ['julieta_m', 'valen'], ['julieta_m', 'tomas'], ['julieta_m', 'nicolas_v'],
+  ['julieta_m', 'carolina_l'], ['julieta_m', 'pablo_c'],
+  // pablo_c follows
+  ['pablo_c', 'valen'], ['pablo_c', 'lucas_dev'], ['pablo_c', 'mateo_h'],
+  ['pablo_c', 'tomas'], ['pablo_c', 'sofia_g'],
 ];
 
 // Likes as [likerUsername, tweetIndex] pairs (index into SEED_TWEETS)
 const SEED_LIKES: Array<[string, number]> = [
   // likes on martina's tweets (0-9)
-  ['lucas_dev', 0], ['sofia_g', 0], ['mateo_ux', 0],
-  ['caro_reads', 1], ['nico_photo', 2],
-  ['tomas', 3], ['valen', 4], ['pablito_ml', 5],
+  ['lucas_dev', 0], ['sofia_g', 0], ['mateo_h', 0],
+  ['carolina_l', 1], ['nicolas_v', 2],
+  ['tomas', 3], ['valen', 4], ['pablo_c', 5],
   // likes on lucas_dev's tweets (10-19)
   ['martina', 10], ['sofia_g', 11], ['valen', 13],
-  ['pablito_ml', 14], ['tomas', 15], ['mateo_ux', 16],
+  ['pablo_c', 14], ['tomas', 15], ['mateo_h', 16],
   // likes on sofia_g's tweets (20-29)
   ['martina', 20], ['valen', 21], ['lucas_dev', 22],
-  ['tomas', 24], ['caro_reads', 25], ['nico_photo', 27],
+  ['tomas', 24], ['carolina_l', 25], ['nicolas_v', 27],
   // likes on tomas's tweets (30-39)
   ['sofia_g', 30], ['valen', 31], ['martina', 33],
-  ['lucas_dev', 35], ['juli_runs', 36], ['pablito_ml', 38],
+  ['lucas_dev', 35], ['julieta_m', 36], ['pablo_c', 38],
   // likes on valen's tweets (40-49)
-  ['pablito_ml', 40], ['martina', 41], ['lucas_dev', 43],
-  ['mateo_ux', 45], ['tomas', 48],
-  // likes on nico_photo's tweets (50-59)
-  ['martina', 50], ['sofia_g', 51], ['caro_reads', 52],
-  ['mateo_ux', 54], ['juli_runs', 55],
-  // likes on caro_reads's tweets (60-69)
-  ['sofia_g', 60], ['martina', 62], ['nico_photo', 64],
-  ['tomas', 65], ['juli_runs', 67],
-  // likes on mateo_ux's tweets (70-79)
+  ['pablo_c', 40], ['martina', 41], ['lucas_dev', 43],
+  ['mateo_h', 45], ['tomas', 48],
+  // likes on nicolas_v's tweets (50-59)
+  ['martina', 50], ['sofia_g', 51], ['carolina_l', 52],
+  ['mateo_h', 54], ['julieta_m', 55],
+  // likes on carolina_l's tweets (60-69)
+  ['sofia_g', 60], ['martina', 62], ['nicolas_v', 64],
+  ['tomas', 65], ['julieta_m', 67],
+  // likes on mateo_h's tweets (70-79)
   ['martina', 70], ['lucas_dev', 71], ['valen', 72],
-  ['sofia_g', 74], ['pablito_ml', 76],
-  // likes on juli_runs's tweets (80-89)
-  ['tomas', 80], ['valen', 81], ['nico_photo', 83],
-  ['caro_reads', 85], ['pablito_ml', 88],
-  // likes on pablito_ml's tweets (90-99)
-  ['valen', 90], ['lucas_dev', 91], ['mateo_ux', 92],
+  ['sofia_g', 74], ['pablo_c', 76],
+  // likes on julieta_m's tweets (80-89)
+  ['tomas', 80], ['valen', 81], ['nicolas_v', 83],
+  ['carolina_l', 85], ['pablo_c', 88],
+  // likes on pablo_c's tweets (90-99)
+  ['valen', 90], ['lucas_dev', 91], ['mateo_h', 92],
   ['tomas', 94], ['sofia_g', 96],
 ];
 

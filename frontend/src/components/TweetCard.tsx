@@ -9,9 +9,10 @@ import Avatar from './Avatar'
 interface TweetCardProps {
   tweet: Tweet
   currentUserId: string | null
+  onDelete?: (id: string) => void
 }
 
-export default function TweetCard({ tweet, currentUserId }: TweetCardProps) {
+export default function TweetCard({ tweet, currentUserId, onDelete }: TweetCardProps) {
   const router = useRouter()
   const { toggleLike, deleteTweet } = useTimelineStore()
   const isOwner = currentUserId !== null && tweet.user.id === currentUserId
@@ -39,6 +40,7 @@ export default function TweetCard({ tweet, currentUserId }: TweetCardProps) {
     try {
       await api.delete(`/tweets/${tweet.id}`)
       deleteTweet(tweet.id)
+      onDelete?.(tweet.id)
     } catch {
       /* silently ignore */
     }

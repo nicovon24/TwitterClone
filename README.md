@@ -141,11 +141,11 @@ All demo accounts share the password **`password123`**. Log in with any of these
 | `sofia@clontwitter.dev`     | `sofia_g`     | Sofía González    |
 | `tomas@clontwitter.dev`     | `tomas`       | Tomás Pérez       |
 | `valen@clontwitter.dev`     | `valen`       | Valentina Díaz    |
-| `nico@clontwitter.dev`      | `nico_photo`  | Nicolás Vargas    |
-| `caro@clontwitter.dev`      | `caro_reads`  | Carolina López    |
-| `mateo@clontwitter.dev`     | `mateo_ux`    | Mateo Herrera     |
-| `juli@clontwitter.dev`      | `juli_runs`   | Julieta Moreno    |
-| `pablo@clontwitter.dev`     | `pablito_ml`  | Pablo Castillo    |
+| `nico@clontwitter.dev`      | `nicolas_v`   | Nicolás Vargas    |
+| `caro@clontwitter.dev`      | `carolina_l`  | Carolina López    |
+| `mateo@clontwitter.dev`     | `mateo_h`     | Mateo Herrera     |
+| `juli@clontwitter.dev`      | `julieta_m`   | Julieta Moreno    |
+| `pablo@clontwitter.dev`     | `pablo_c`     | Pablo Castillo    |
 
 To run the seed manually:
 

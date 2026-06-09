@@ -233,7 +233,12 @@ export default function UserProfilePage() {
       {/* Tweets */}
       <div>
         {tweets.map((tweet) => (
-          <TweetCard key={tweet.id} tweet={tweet} currentUserId={currentUser?.id ?? null} />
+          <TweetCard
+            key={tweet.id}
+            tweet={tweet}
+            currentUserId={currentUser?.id ?? null}
+            onDelete={(id) => setTweets((prev) => prev.filter((t) => t.id !== id))}
+          />
         ))}
 
         {tweets.length === 0 && (
