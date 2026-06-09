@@ -38,7 +38,10 @@ beforeEach(() => {
 
 describe('Follow/Unfollow in Search', () => {
   it('clicking Seguir calls POST /follows/:username and shows Dejar de seguir', async () => {
-    vi.mocked(api.get).mockResolvedValueOnce({ data: { users: [bobResult], next_cursor: null } })
+    // SearchPage fires two api.get calls: one on mount (q='') and one when debouncedQuery updates
+    vi.mocked(api.get)
+      .mockResolvedValueOnce({ data: { users: [bobResult], next_cursor: null } })
+      .mockResolvedValueOnce({ data: { users: [bobResult], next_cursor: null } })
     vi.mocked(api.post).mockResolvedValueOnce({ data: { message: 'Now following bob' } })
 
     render(<SearchPage />)
@@ -58,7 +61,9 @@ describe('Follow/Unfollow in Search', () => {
 
   it('clicking Siguiendo calls DELETE /follows/:username and shows Seguir', async () => {
     const followingBob = { ...bobResult, is_following: true }
-    vi.mocked(api.get).mockResolvedValueOnce({ data: { users: [followingBob], next_cursor: null } })
+    vi.mocked(api.get)
+      .mockResolvedValueOnce({ data: { users: [followingBob], next_cursor: null } })
+      .mockResolvedValueOnce({ data: { users: [followingBob], next_cursor: null } })
     vi.mocked(api.delete).mockResolvedValueOnce({ data: { message: 'Unfollowed bob' } })
 
     render(<SearchPage />)

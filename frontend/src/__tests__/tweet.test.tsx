@@ -37,7 +37,7 @@ describe('TweetComposer', () => {
     await userEvent.click(screen.getByRole('button', { name: /postear/i }))
 
     await waitFor(() => {
-      expect(api.post).toHaveBeenCalledWith('/tweets', { content: 'Hola mundo' })
+      expect(api.post).toHaveBeenCalledWith('/tweets', { content: 'Hola mundo', image_url: null })
       expect(useTimelineStore.getState().tweets).toHaveLength(1)
       expect(useTimelineStore.getState().tweets[0].id).toBe('tweet-1')
     })
