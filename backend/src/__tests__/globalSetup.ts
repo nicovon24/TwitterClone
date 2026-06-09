@@ -2,13 +2,15 @@
  * Vitest globalSetup — runs once in the main process before any worker is forked.
  * Sets DATABASE_URL to TEST_DATABASE_URL so that db/index.ts and env.ts read
  * the test database connection string when modules are first loaded in workers.
+ *
+ * The root .env is already loaded by vitest.config.ts before this runs.
  */
 export function setup(): void {
   const testUrl = process.env.TEST_DATABASE_URL;
   if (!testUrl) {
     throw new Error(
       'TEST_DATABASE_URL is not set.\n' +
-        'Set TEST_DATABASE_URL=postgres://user:pass@localhost:5432/clontwitter_test ' +
+        'Set TEST_DATABASE_URL=postgres://user:pass@localhost:5433/clontwitter_test ' +
         'to run integration tests.',
     );
   }
