@@ -63,14 +63,17 @@ describe('GET /search/users', () => {
     expect(res.body).toMatchObject({ users: [], next_cursor: null });
   });
 
-  it('returns 400 when q param is missing', async () => {
+  it('returns all users when q param is missing or empty', async () => {
+    // q is now optional — missing/empty q lists all users (used by the Explore page)
     const viewer = await registerAndLogin('srchnoparam');
 
     const res = await request(app)
       .get('/search/users')
       .set('Authorization', `Bearer ${viewer.accessToken}`);
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('users');
+    expect(Array.isArray(res.body.users)).toBe(true);
   });
 
   it('returns 401 when unauthenticated', async () => {

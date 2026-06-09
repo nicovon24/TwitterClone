@@ -1,0 +1,16 @@
+{
+  "name": "clontwitter",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicovon24/TwitterClone.git"
+  },
+  "license": "ISC"
+}

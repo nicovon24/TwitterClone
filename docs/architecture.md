@@ -4,27 +4,29 @@ Each ADR records a decision, its context, and the rationale. Once logged, ADRs a
 
 ---
 
-## ADR-001 — Authentication: JWT + httpOnly Cookie
+## ADR-001 — Authentication: JWT + localStorage
 
 **Date:** 2026-06-04
-**Status:** Accepted
+**Status:** Accepted (revised 2026-06-09)
 
 ### Context
 The challenge explicitly prohibits third-party auth solutions (Firebase Auth, Supabase Auth). We need a custom auth implementation.
 
 ### Decision
 Use JWT signed with a secret (`JWT_SECRET`). On login/register:
-- Backend sets the token as an `httpOnly` cookie (secure in production, prevents XSS access)
-- Token is also returned in the response body so the frontend can store it in Zustand (in-memory, survives the current tab session)
-- On page refresh, the frontend calls `GET /api/auth/me` using the httpOnly cookie to restore the session
+- Backend returns both tokens in the response body
+- Frontend stores `accessToken` and `refreshToken` in `localStorage`
+- Axios request interceptor reads from `localStorage` and attaches `Authorization: Bearer <token>` to every request
+- On 401, the Axios response interceptor silently calls `POST /auth/refresh`, persists the new tokens, and retries the original request
+- On page refresh, the Zustand store is initialized from `localStorage` synchronously (client-side only)
 
 ### Auth middleware
-`requireAuth` middleware reads from `Authorization: Bearer <token>` header first, falls back to the cookie. This supports both browser clients and API testing tools.
+`requireAuth` reads `Authorization: Bearer <token>` from the request header. `optionalAuth` does the same but never rejects anonymous requests — used on public routes that personalize their response (`is_following`, `liked_by_me`).
 
 ### Trade-offs
-- httpOnly cookie prevents XSS from stealing the token
-- Token in Zustand makes it easy to add to Axios headers without reading the cookie
-- CSRF is mitigated by requiring `Content-Type: application/json` on state-changing requests (standard SameSite cookie behavior)
+- `localStorage` is readable by JavaScript — XSS attacks could steal tokens. The safer alternative is `httpOnly` cookies, which would require same-origin deployment or carefully configured CORS + `withCredentials`. For this challenge scope, localStorage was chosen for simplicity.
+- Refresh token rotation (new token issued and old hash invalidated on every refresh) limits damage from a stolen refresh token to a single use.
+- Storing tokens client-side makes the Axios interceptor straightforward and avoids CSRF complexity.
 
 ---
 

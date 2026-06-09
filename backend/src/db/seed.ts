@@ -49,6 +49,36 @@ const SEED_USERS: SeedUser[] = [
     display_name: 'Valentina Díaz',
     bio: 'Estudiante de ciencia de datos. Curiosa serial.',
   },
+  {
+    username: 'nico_photo',
+    email: 'nico@clontwitter.dev',
+    display_name: 'Nicolás Vargas',
+    bio: 'Fotógrafo urbano 📷 | Buenos Aires de noche',
+  },
+  {
+    username: 'caro_reads',
+    email: 'caro@clontwitter.dev',
+    display_name: 'Carolina López',
+    bio: 'Lectora compulsiva. Recomiendo libros que no te van a gustar.',
+  },
+  {
+    username: 'mateo_ux',
+    email: 'mateo@clontwitter.dev',
+    display_name: 'Mateo Herrera',
+    bio: 'UX researcher. Entiendo a los usuarios mejor que ellos mismos.',
+  },
+  {
+    username: 'juli_runs',
+    email: 'juli@clontwitter.dev',
+    display_name: 'Julieta Moreno',
+    bio: 'Maratonista amateur 🏃‍♀️ | Comida sana, vida caótica',
+  },
+  {
+    username: 'pablito_ml',
+    email: 'pablo@clontwitter.dev',
+    display_name: 'Pablo Castillo',
+    bio: 'Machine learning engineer. Entreno modelos y también mis brazos.',
+  },
 ];
 
 interface SeedTweet {
@@ -56,9 +86,8 @@ interface SeedTweet {
   content: string;
 }
 
-// 50 tweets spread across the 5 accounts (10 each).
 const SEED_TWEETS: SeedTweet[] = [
-  // martina
+  // martina (diseño)
   { author: 'martina', content: 'Arranco el día con mate y rediseñando la home. Menos es más 🎨' },
   { author: 'martina', content: 'Tip de diseño: el espacio en blanco no es espacio perdido.' },
   { author: 'martina', content: 'Hoy pasé 3 horas eligiendo una tipografía. No me arrepiento.' },
@@ -70,7 +99,7 @@ const SEED_TWEETS: SeedTweet[] = [
   { author: 'martina', content: 'El botón tiene que ser más grande. El botón siempre tiene que ser más grande.' },
   { author: 'martina', content: 'Nada como terminar el día sabiendo que el producto quedó mejor de lo que entró 💪' },
 
-  // lucas_dev
+  // lucas_dev (dev)
   { author: 'lucas_dev', content: 'Hoy peleándome con un bug que resultó ser un punto y coma. Clásico.' },
   { author: 'lucas_dev', content: 'TypeScript te salva más veces de las que admitís.' },
   { author: 'lucas_dev', content: '¿Asado del finde confirmado? 🔥' },
@@ -82,31 +111,31 @@ const SEED_TWEETS: SeedTweet[] = [
   { author: 'lucas_dev', content: 'Si tu PR tiene más de 500 líneas, hacelo en partes. Nadie lo va a reviewear bien así.' },
   { author: 'lucas_dev', content: 'Hoy aprendí algo nuevo. Eso sigue siendo lo mejor de este trabajo.' },
 
-  // sofia_g
+  // sofia_g (periodismo)
   { author: 'sofia_g', content: 'Nueva nota en camino: cómo la IA está cambiando el periodismo. Link pronto.' },
   { author: 'sofia_g', content: 'Lo mejor de cubrir tecnología es que nunca te aburrís.' },
   { author: 'sofia_g', content: 'Entrevista cancelada. La fuente "no puede hablar del tema". Siempre igual 🙃' },
   { author: 'sofia_g', content: 'La desinformación no se combate con más información, se combate con mejor contexto.' },
-  { author: 'sofia_g', content: 'Publicado: mi análisis sobre cómo los algoritmos moldean qué noticias vemos. Fue un trabajo largo.' },
+  { author: 'sofia_g', content: 'Publicado: mi análisis sobre cómo los algoritmos moldean qué noticias vemos.' },
   { author: 'sofia_g', content: 'Pregunta para periodistas: ¿cuándo fue la última vez que una historia los sorprendió de verdad?' },
   { author: 'sofia_g', content: 'Buenos Aires de noche, grabadora en mano. Esto es lo que me gusta de este laburo.' },
   { author: 'sofia_g', content: 'El titular tiene que generar una pregunta en la cabeza del lector, no responderla.' },
   { author: 'sofia_g', content: 'Tres años cubriendo startups: la mayoría prometía cambiar el mundo, pocas lo hicieron.' },
   { author: 'sofia_g', content: 'Nuevo episodio del podcast ya disponible. Hablamos de redes, privacidad y el precio de la atención.' },
 
-  // tomas
+  // tomas (gaming/fútbol)
   { author: 'tomas', content: 'Qué partido del Liverpool, no me quedan uñas 🔴' },
   { author: 'tomas', content: 'Recomiéndenme un juego para el finde, ando sin ideas 🎮' },
-  { author: 'tomas', content: 'Baldur\'s Gate 3 sigue siendo el mejor juego de los últimos 10 años. Fight me.' },
+  { author: 'tomas', content: "Baldur's Gate 3 sigue siendo el mejor juego de los últimos 10 años. Fight me." },
   { author: 'tomas', content: 'El Liverpool ganó. Puedo dormir en paz esta semana.' },
-  { author: 'tomas', content: '¿Cómo puede ser que siga sin haber una adaptación decente de Ender\'s Game?' },
+  { author: 'tomas', content: "¿Cómo puede ser que siga sin haber una adaptación decente de Ender's Game?" },
   { author: 'tomas', content: 'Empecé Cyberpunk 2077 (sí, tarde). El mundo está increíble.' },
   { author: 'tomas', content: 'Noche de campaña en D&D. El dungeon master nos destruyó. Impresionante.' },
   { author: 'tomas', content: 'El Monumental lleno es uno de los mejores espectáculos que existe. Sin discusión.' },
   { author: 'tomas', content: 'Hotdog o sándwich. Esto no es debate, es filosofía.' },
   { author: 'tomas', content: 'Terminé Shogun. No voy a spoilear nada. Solo: vean Shogun.' },
 
-  // valen
+  // valen (data science)
   { author: 'valen', content: 'Empezando un curso de ciencia de datos. Pandas, allá voy 🐼' },
   { author: 'valen', content: 'Visualizar datos es medio arte y medio matemática.' },
   { author: 'valen', content: 'Pregunta seria: ¿café o mate para programar de noche?' },
@@ -117,20 +146,136 @@ const SEED_TWEETS: SeedTweet[] = [
   { author: 'valen', content: 'Kaggle competition modo on. Dos días, mucho café, cero sueño ☕' },
   { author: 'valen', content: 'Si tus datos están limpios, desconfiá. Algo estás pasando por alto.' },
   { author: 'valen', content: 'Terminé el curso. Lo que sigue es aplicarlo. Eso da más miedo que el curso.' },
+
+  // nico_photo (fotografía)
+  { author: 'nico_photo', content: 'Hora dorada en el Riachuelo. La luz era perfecta esta tarde 📷' },
+  { author: 'nico_photo', content: 'Film vs digital: la discusión eterna que nunca voy a ganar.' },
+  { author: 'nico_photo', content: 'Cuatro rollos revelados. Tres fotos salvables. La fotografía analógica es así.' },
+  { author: 'nico_photo', content: 'El mejor momento del día: revisar fotos de noche con un café.' },
+  { author: 'nico_photo', content: 'Buenos Aires tiene una magia particular después de la lluvia.' },
+  { author: 'nico_photo', content: 'Gear no importa si no sabés mirar. Pero igual quiero esa lente.' },
+  { author: 'nico_photo', content: 'Retratando a personas desconocidas en el subte. La ciudad nunca para.' },
+  { author: 'nico_photo', content: 'La foto perfecta existe. Estás cinco segundos tarde siempre.' },
+  { author: 'nico_photo', content: 'Palermo de madrugada, sin turistas. La ciudad que más me gusta.' },
+  { author: 'nico_photo', content: 'Primer exposición propia el mes que viene. Nervios al 100%.' },
+
+  // caro_reads (libros)
+  { author: 'caro_reads', content: 'Terminé "Las correcciones" de Franzen. Uf.' },
+  { author: 'caro_reads', content: 'La mejor inversión que podés hacer: un buen marcador de páginas.' },
+  { author: 'caro_reads', content: 'Releyendo a Borges. Cada vez entiendo menos y disfruto más.' },
+  { author: 'caro_reads', content: 'Hay un olor específico de los libros viejos que es básicamente serotonina.' },
+  { author: 'caro_reads', content: 'Recomendación: "La uruguaya" de Pedro Mairal. Corta, perfecta.' },
+  { author: 'caro_reads', content: '¿Alguien más tiene más libros comprados sin leer que años de vida le quedan?' },
+  { author: 'caro_reads', content: 'Feria del libro próxima semana. Presupuesto: $5000. Realidad: $15000.' },
+  { author: 'caro_reads', content: 'No existe el "libro difícil". Existe el libro para el que todavía no estás listo.' },
+  { author: 'caro_reads', content: 'Salinger a los 20, Salinger a los 30: dos libros completamente distintos.' },
+  { author: 'caro_reads', content: 'Recomiéndame el último libro que te dejó sin palabras. Necesito nuevas lecturas.' },
+
+  // mateo_ux (research)
+  { author: 'mateo_ux', content: 'Cinco entrevistas de usuarios en un día. Mi cabeza necesita un reset.' },
+  { author: 'mateo_ux', content: 'El insight más valioso de hoy: nadie entiende el onboarding. Nadie.' },
+  { author: 'mateo_ux', content: 'UX tip: preguntá "¿por qué?" cinco veces. Recién ahí vas a entender el problema real.' },
+  { author: 'mateo_ux', content: 'El mejor test de usabilidad es ver a tu mamá usar el producto.' },
+  { author: 'mateo_ux', content: 'Presentación de findings hoy. El equipo de producto se quedó callado. Éxito.' },
+  { author: 'mateo_ux', content: 'Diseñar para el usuario promedio es diseñar para nadie.' },
+  { author: 'mateo_ux', content: 'Heatmap nuevo del producto. El 90% de los clics van a un botón que queremos eliminar.' },
+  { author: 'mateo_ux', content: 'Accesibilidad no es un nice-to-have. Es parte del trabajo.' },
+  { author: 'mateo_ux', content: 'Tres horas de síntesis de research. Pero encontré el patrón que necesitaba.' },
+  { author: 'mateo_ux', content: 'La empatía es una herramienta de trabajo, no solo una cualidad personal.' },
+
+  // juli_runs (running/fitness)
+  { author: 'juli_runs', content: '21k completados esta mañana. Las piernas dicen que no, la cabeza dice que sí 🏃‍♀️' },
+  { author: 'juli_runs', content: 'Meal prep domingo. La semana no me va a ganar.' },
+  { author: 'juli_runs', content: 'El kilómetro 18 de un maratón es donde el cuerpo negocia con el alma.' },
+  { author: 'juli_runs', content: 'Avena con frutas a las 6am. No me pregunten por qué, tampoco lo entiendo.' },
+  { author: 'juli_runs', content: 'Lesión en la rodilla. Dos semanas sin correr. Existencial crisis activada.' },
+  { author: 'juli_runs', content: 'Primer maratón de Buenos Aires registrada. Seis meses de entrenamiento en juego.' },
+  { author: 'juli_runs', content: 'Correr de noche por el Rosedal: experiencia completamente distinta.' },
+  { author: 'juli_runs', content: 'Hidratación. Siempre hidratación. Eso es todo lo que tengo para decir hoy.' },
+  { author: 'juli_runs', content: 'PR nuevo en los 10k. No lo puedo creer todavía.' },
+  { author: 'juli_runs', content: 'El running me enseñó más sobre perseverancia que cualquier libro de autoayuda.' },
+
+  // pablito_ml (ML)
+  { author: 'pablito_ml', content: 'Modelo nuevo en producción. F1-score: 0.94. Buenas noticias para un lunes.' },
+  { author: 'pablito_ml', content: 'Transformer attention es magia que entendés y no entendés a la vez.' },
+  { author: 'pablito_ml', content: 'El problema con los LLMs no es la alucinación. Es que confían demasiado en sí mismos.' },
+  { author: 'pablito_ml', content: 'CUDA out of memory. El villano final de todo proyecto de ML.' },
+  { author: 'pablito_ml', content: 'Feature engineering bien hecho > modelo complejo mal alimentado.' },
+  { author: 'pablito_ml', content: 'Revisando papers de 2019 que hoy son "básicos". El campo avanza rápido.' },
+  { author: 'pablito_ml', content: 'Experimento fallido hoy. Hipótesis incorrecta, pero aprendí el doble.' },
+  { author: 'pablito_ml', content: 'El bias en datos de entrenamiento no es un bug. Es un reflejo del mundo. Eso es peor.' },
+  { author: 'pablito_ml', content: 'Gym + modelo de clasificación: los dos me hacen sudar un martes.' },
+  { author: 'pablito_ml', content: 'Charla de ML mañana. Preparé 40 slides. Voy a usar 15.' },
 ];
 
-// Likes as [likerUsername, tweetIndex] pairs (index into SEED_TWEETS).
+// Follows: each user follows a subset of the others (not all to keep it realistic)
+// Format: [followerUsername, followingUsername]
+const SEED_FOLLOWS: Array<[string, string]> = [
+  // martina follows
+  ['martina', 'lucas_dev'], ['martina', 'sofia_g'], ['martina', 'mateo_ux'],
+  ['martina', 'caro_reads'], ['martina', 'nico_photo'],
+  // lucas_dev follows
+  ['lucas_dev', 'martina'], ['lucas_dev', 'tomas'], ['lucas_dev', 'valen'],
+  ['lucas_dev', 'pablito_ml'], ['lucas_dev', 'mateo_ux'],
+  // sofia_g follows
+  ['sofia_g', 'martina'], ['sofia_g', 'lucas_dev'], ['sofia_g', 'caro_reads'],
+  ['sofia_g', 'tomas'], ['sofia_g', 'nico_photo'],
+  // tomas follows
+  ['tomas', 'lucas_dev'], ['tomas', 'sofia_g'], ['tomas', 'juli_runs'],
+  ['tomas', 'pablito_ml'], ['tomas', 'valen'],
+  // valen follows
+  ['valen', 'pablito_ml'], ['valen', 'lucas_dev'], ['valen', 'martina'],
+  ['valen', 'mateo_ux'], ['valen', 'sofia_g'],
+  // nico_photo follows
+  ['nico_photo', 'martina'], ['nico_photo', 'caro_reads'], ['nico_photo', 'juli_runs'],
+  ['nico_photo', 'sofia_g'], ['nico_photo', 'mateo_ux'],
+  // caro_reads follows
+  ['caro_reads', 'sofia_g'], ['caro_reads', 'martina'], ['caro_reads', 'nico_photo'],
+  ['caro_reads', 'juli_runs'], ['caro_reads', 'tomas'],
+  // mateo_ux follows
+  ['mateo_ux', 'martina'], ['mateo_ux', 'lucas_dev'], ['mateo_ux', 'valen'],
+  ['mateo_ux', 'sofia_g'], ['mateo_ux', 'pablito_ml'],
+  // juli_runs follows
+  ['juli_runs', 'valen'], ['juli_runs', 'tomas'], ['juli_runs', 'nico_photo'],
+  ['juli_runs', 'caro_reads'], ['juli_runs', 'pablito_ml'],
+  // pablito_ml follows
+  ['pablito_ml', 'valen'], ['pablito_ml', 'lucas_dev'], ['pablito_ml', 'mateo_ux'],
+  ['pablito_ml', 'tomas'], ['pablito_ml', 'sofia_g'],
+];
+
+// Likes as [likerUsername, tweetIndex] pairs (index into SEED_TWEETS)
 const SEED_LIKES: Array<[string, number]> = [
-  ['lucas_dev', 0], ['sofia_g', 0], ['tomas', 0],
-  ['valen', 1], ['tomas', 2],
+  // likes on martina's tweets (0-9)
+  ['lucas_dev', 0], ['sofia_g', 0], ['mateo_ux', 0],
+  ['caro_reads', 1], ['nico_photo', 2],
+  ['tomas', 3], ['valen', 4], ['pablito_ml', 5],
+  // likes on lucas_dev's tweets (10-19)
   ['martina', 10], ['sofia_g', 11], ['valen', 13],
-  ['lucas_dev', 14], ['tomas', 15],
+  ['pablito_ml', 14], ['tomas', 15], ['mateo_ux', 16],
+  // likes on sofia_g's tweets (20-29)
   ['martina', 20], ['valen', 21], ['lucas_dev', 22],
-  ['tomas', 24], ['martina', 25],
+  ['tomas', 24], ['caro_reads', 25], ['nico_photo', 27],
+  // likes on tomas's tweets (30-39)
   ['sofia_g', 30], ['valen', 31], ['martina', 33],
-  ['lucas_dev', 35], ['sofia_g', 36],
-  ['tomas', 40], ['martina', 41], ['lucas_dev', 43],
-  ['sofia_g', 45], ['tomas', 48],
+  ['lucas_dev', 35], ['juli_runs', 36], ['pablito_ml', 38],
+  // likes on valen's tweets (40-49)
+  ['pablito_ml', 40], ['martina', 41], ['lucas_dev', 43],
+  ['mateo_ux', 45], ['tomas', 48],
+  // likes on nico_photo's tweets (50-59)
+  ['martina', 50], ['sofia_g', 51], ['caro_reads', 52],
+  ['mateo_ux', 54], ['juli_runs', 55],
+  // likes on caro_reads's tweets (60-69)
+  ['sofia_g', 60], ['martina', 62], ['nico_photo', 64],
+  ['tomas', 65], ['juli_runs', 67],
+  // likes on mateo_ux's tweets (70-79)
+  ['martina', 70], ['lucas_dev', 71], ['valen', 72],
+  ['sofia_g', 74], ['pablito_ml', 76],
+  // likes on juli_runs's tweets (80-89)
+  ['tomas', 80], ['valen', 81], ['nico_photo', 83],
+  ['caro_reads', 85], ['pablito_ml', 88],
+  // likes on pablito_ml's tweets (90-99)
+  ['valen', 90], ['lucas_dev', 91], ['mateo_ux', 92],
+  ['tomas', 94], ['sofia_g', 96],
 ];
 
 export async function seed(): Promise<void> {
@@ -171,20 +316,16 @@ export async function seed(): Promise<void> {
       SEED_TWEETS.map((t, i) => ({
         user_id: userIdByUsername.get(t.author)!,
         content: t.content,
-        created_at: new Date(now - i * 3 * 60 * 1000), // 3 min apart, newest first
+        created_at: new Date(now - i * 3 * 60 * 1000), // 3 min apart
       })),
     )
     .returning({ id: tweets.id });
 
-  // 3) Follows — full mesh: every demo user follows the other four
-  const followRows: Array<{ follower_id: string; following_id: string }> = [];
-  for (const follower of insertedUsers) {
-    for (const following of insertedUsers) {
-      if (follower.id !== following.id) {
-        followRows.push({ follower_id: follower.id, following_id: following.id });
-      }
-    }
-  }
+  // 3) Follows
+  const followRows = SEED_FOLLOWS.map(([follower, following]) => ({
+    follower_id: userIdByUsername.get(follower)!,
+    following_id: userIdByUsername.get(following)!,
+  }));
   await db.insert(follows).values(followRows);
 
   // 4) Likes
