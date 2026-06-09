@@ -2,12 +2,11 @@
 
 ## Now — 2026-06-09
 
-Working on: Follow/search production fixes shipped. Next up: Playwright E2E, GitHub Actions CI/CD.
+Working on: All test fixes shipped. Backend 46/46, frontend 8/8.
 
 ## Next
 
-- [ ] Phase 4 — Plan 04-02: Playwright E2E @smoke happy path → `04-PLAN-playwright-e2e.md`
-- [ ] Phase 4 — Plan 04-03: GitHub Actions CI/CD (ci.yml + e2e.yml + GET /health) → `04-PLAN-cicd.md`
+- [ ] Phase 4 — Plan 04-03: GitHub Actions CI/CD → `04-PLAN-cicd.md`
 
 ## Blocked / Known issues
 
