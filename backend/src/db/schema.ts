@@ -1,4 +1,5 @@
-import { pgTable, uuid, varchar, text, timestamp, primaryKey, check, index } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, timestamp, primaryKey, check, index, boolean } from 'drizzle-orm/pg-core';
+import type { AnyPgColumn } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 export const users = pgTable(
@@ -32,12 +33,14 @@ export const tweets = pgTable(
     image_url: text('image_url'),
     created_at: timestamp('created_at').notNull().defaultNow(),
     deleted_at: timestamp('deleted_at'),
+    parent_tweet_id: uuid('parent_tweet_id').references((): AnyPgColumn => tweets.id, { onDelete: 'set null' }),
   },
   (table) => ({
     userCreatedAtIdx: index('tweets_user_id_created_at_idx').on(table.user_id, table.created_at),
     activeCreatedAtIdx: index('tweets_active_created_at_idx')
       .on(table.created_at)
       .where(sql`${table.deleted_at} IS NULL`),
+    parentTweetIdx: index('tweets_parent_tweet_id_idx').on(table.parent_tweet_id),
   }),
 );
 
@@ -69,3 +72,19 @@ export const likes = pgTable('likes', {
 }, (table) => ({
   pk: primaryKey({ columns: [table.user_id, table.tweet_id] }),
 }));
+
+export const notifications = pgTable(
+  'notifications',
+  {
+    id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+    recipient_id: uuid('recipient_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    actor_id: uuid('actor_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    type: varchar('type', { length: 20 }).notNull(),
+    tweet_id: uuid('tweet_id').references(() => tweets.id, { onDelete: 'cascade' }),
+    read: boolean('read').notNull().default(false),
+    created_at: timestamp('created_at').notNull().defaultNow(),
+  },
+  (table) => ({
+    recipientIdx: index('notifications_recipient_id_idx').on(table.recipient_id),
+  }),
+);

@@ -8,6 +8,8 @@ export interface Tweet {
   user: { id: string; username: string; display_name: string | null; avatar_url: string | null }
   likes_count: number
   liked_by_me: boolean
+  parent_tweet_id: string | null
+  replies_count: number
 }
 
 interface TimelineState {

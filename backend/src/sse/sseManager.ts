@@ -34,25 +34,30 @@ export function removeConnection(userId: string, res: Response): void {
 }
 
 /**
+ * Send a named SSE event to all active connections for a single user.
+ * Used for real-time notification delivery.
+ */
+export function broadcastToUser(userId: string, eventName: string, payload: object): void {
+  const data = JSON.stringify(payload);
+  const message = `event: ${eventName}\ndata: ${data}\n\n`;
+  const userConns = connections.get(userId);
+  if (!userConns || userConns.size === 0) return;
+  for (const res of userConns) {
+    try {
+      res.write(message);
+    } catch {
+      removeConnection(userId, res);
+    }
+  }
+}
+
+/**
  * Broadcast a new_tweet event to all active SSE connections belonging to the
  * given list of follower IDs. Silently skips followers with no open connections.
  */
 export function broadcastToFollowers(followerIds: string[], payload: object): void {
-  const data = JSON.stringify(payload);
-  const message = `event: new_tweet\ndata: ${data}\n\n`;
-
   for (const followerId of followerIds) {
-    const userConns = connections.get(followerId);
-    if (!userConns || userConns.size === 0) continue;
-
-    for (const res of userConns) {
-      try {
-        res.write(message);
-      } catch {
-        // Connection may have closed between check and write; ignore
-        removeConnection(followerId, res);
-      }
-    }
+    broadcastToUser(followerId, 'new_tweet', payload);
   }
 }
 

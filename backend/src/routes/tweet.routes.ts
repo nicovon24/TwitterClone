@@ -15,6 +15,7 @@ export const tweetRouter = Router();
 const createTweetSchema = z.object({
   content: z.string().min(1, 'Content is required').max(280, 'Content must be 280 chars or fewer'),
   image_url: z.string().url().nullable().optional(),
+  parent_tweet_id: z.string().uuid().nullable().optional(),
 });
 
 // POST /tweets
@@ -25,7 +26,7 @@ tweetRouter.post('/', requireAuth, async (req: Request, res: Response): Promise<
     return;
   }
 
-  const tweet = await tweetService.createTweet(req.user!.id, parseResult.data.content, parseResult.data.image_url);
+  const tweet = await tweetService.createTweet(req.user!.id, parseResult.data.content, parseResult.data.image_url, parseResult.data.parent_tweet_id);
   res.status(201).json(tweet);
 });
 
@@ -43,6 +44,21 @@ tweetRouter.get('/:id', requireAuth, async (req: Request, res: Response): Promis
     throw err
   }
 })
+
+// GET /tweets/:id/replies
+tweetRouter.get('/:id/replies', requireAuth, async (req: Request, res: Response): Promise<void> => {
+  const cursor = typeof req.query.cursor === 'string' ? req.query.cursor : undefined;
+  const rawLimit = Number(req.query.limit);
+  const limit = !isNaN(rawLimit) && rawLimit > 0 ? Math.min(rawLimit, 50) : 20;
+  try {
+    const result = await tweetService.getReplies(req.params.id, req.user!.id, cursor, limit);
+    res.status(200).json({ tweets: result.tweets, next_cursor: result.nextCursor });
+  } catch (err: unknown) {
+    const typed = err as { status?: number; message?: string };
+    if (typed.status === 400) { res.status(400).json({ error: typed.message ?? 'Bad request' }); return; }
+    throw err;
+  }
+});
 
 // DELETE /tweets/:id
 tweetRouter.delete('/:id', requireAuth, async (req: Request, res: Response): Promise<void> => {

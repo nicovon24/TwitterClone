@@ -12,6 +12,7 @@ import {
   ProfileIcon,
   LogoutIcon,
 } from './icons'
+import NotificationBell from './NotificationBell'
 
 export default function Sidebar() {
   const pathname = usePathname()
@@ -68,6 +69,7 @@ export default function Sidebar() {
             </Link>
           )
         })}
+        <NotificationBell />
       </nav>
 
       {/* Post button */}

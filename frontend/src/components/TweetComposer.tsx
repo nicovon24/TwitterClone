@@ -5,6 +5,8 @@ import api from '@/lib/api'
 import { useTimelineStore } from '@/store/timelineStore'
 import { useAuthStore } from '@/store/authStore'
 import Avatar from './Avatar'
+import MentionDropdown from './MentionDropdown'
+import { useMentionAutocomplete } from '@/hooks/useMentionAutocomplete'
 
 const MAX = 280
 
@@ -17,6 +19,10 @@ export default function TweetComposer() {
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const { suggestions, isOpen, onContentChange, selectSuggestion, closeDropdown } =
+    useMentionAutocomplete({ content, setContent, textareaRef })
 
   const remaining = MAX - content.length
   const isValid = content.trim().length > 0 && content.length <= MAX
@@ -55,6 +61,7 @@ export default function TweetComposer() {
       const { data } = await api.post('/tweets', { content: content.trim(), image_url })
       prependTweet(data)
       setContent('')
+      closeDropdown()
       setImageFile(null)
       setImagePreview(null)
       if (fileInputRef.current) fileInputRef.current.value = ''
@@ -70,14 +77,28 @@ export default function TweetComposer() {
       <Avatar user={{ username: currentUser?.username ?? '?' }} className="w-10 h-10 shrink-0" />
 
       <div className="flex-1 min-w-0">
-        <textarea
-          className="w-full resize-none text-xl placeholder-x-gray focus:outline-none bg-transparent pt-2"
-          rows={2}
-          maxLength={285}
-          placeholder="¿Qué está pasando?"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
+        <div className="relative">
+          <textarea
+            ref={textareaRef}
+            className="w-full resize-none text-xl placeholder-x-gray focus:outline-none bg-transparent pt-2"
+            rows={2}
+            maxLength={285}
+            placeholder="¿Qué está pasando?"
+            value={content}
+            onChange={(e) => {
+              setContent(e.target.value)
+              onContentChange(e.target.value)
+            }}
+            onKeyDown={(e) => { if (e.key === 'Escape') closeDropdown() }}
+          />
+          {isOpen && (
+            <MentionDropdown
+              suggestions={suggestions}
+              onSelect={selectSuggestion}
+              onClose={closeDropdown}
+            />
+          )}
+        </div>
 
         {imagePreview && (
           <div className="relative mt-2">

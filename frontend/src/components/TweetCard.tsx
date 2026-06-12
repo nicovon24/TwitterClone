@@ -5,14 +5,17 @@ import api from '@/lib/api'
 import { useTimelineStore, Tweet } from '@/store/timelineStore'
 import { HeartIcon, CommentIcon, TrashIcon } from './icons'
 import Avatar from './Avatar'
+import MentionText from './MentionText'
 
 interface TweetCardProps {
   tweet: Tweet
   currentUserId: string | null
   onDelete?: (id: string) => void
+  threadLineAbove?: boolean
+  threadLineBelow?: boolean
 }
 
-export default function TweetCard({ tweet, currentUserId, onDelete }: TweetCardProps) {
+export default function TweetCard({ tweet, currentUserId, onDelete, threadLineAbove, threadLineBelow }: TweetCardProps) {
   const router = useRouter()
   const { toggleLike, deleteTweet } = useTimelineStore()
   const isOwner = currentUserId !== null && tweet.user.id === currentUserId
@@ -58,19 +61,28 @@ export default function TweetCard({ tweet, currentUserId, onDelete }: TweetCardP
 
   return (
     <article
-      className="border-b border-x-line px-4 py-3 flex items-start gap-3 hover:bg-x-card cursor-pointer transition-colors animate-fade-in"
+      className="relative border-b border-x-line px-4 py-3 flex items-start gap-3 hover:bg-x-card cursor-pointer transition-colors animate-fade-in"
       onClick={() => router.push(`/tweet/${tweet.id}`)}
       role="link"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && router.push(`/tweet/${tweet.id}`)}
     >
-      <button
-        onClick={goToProfile}
-        className="shrink-0 hover:opacity-90"
-        aria-label={`Ver perfil de ${tweet.user.username}`}
-      >
-        <Avatar user={tweet.user} className="w-10 h-10" />
-      </button>
+      {/* Thread connector lines anchored to article — left-9 = px-4(16px) + w-10/2(20px) = 36px */}
+      {threadLineAbove && (
+        <div className="absolute left-9 top-0 h-8 w-0.5 bg-x-line pointer-events-none" />
+      )}
+      {threadLineBelow && (
+        <div className="absolute left-9 top-8 bottom-0 w-0.5 bg-x-line pointer-events-none" />
+      )}
+      <div className="shrink-0">
+        <button
+          onClick={goToProfile}
+          className="hover:opacity-90"
+          aria-label={`Ver perfil de ${tweet.user.username}`}
+        >
+          <Avatar user={tweet.user} className="w-10 h-10" />
+        </button>
+      </div>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1 text-[15px]">
@@ -85,9 +97,7 @@ export default function TweetCard({ tweet, currentUserId, onDelete }: TweetCardP
           <span className="text-x-muted hover:underline">{formattedDate}</span>
         </div>
 
-        <p className="mt-0.5 text-[15px] leading-normal whitespace-pre-wrap break-words text-x-fg">
-          {tweet.content}
-        </p>
+        <MentionText content={tweet.content} />
 
         {tweet.image_url && (
           <img
@@ -109,6 +119,9 @@ export default function TweetCard({ tweet, currentUserId, onDelete }: TweetCardP
             <span className="p-2 rounded-full group-hover:bg-x-blue/10 transition-colors">
               <CommentIcon className="w-[18px] h-[18px]" />
             </span>
+            {tweet.replies_count > 0 && (
+              <span className="text-[13px]">{tweet.replies_count}</span>
+            )}
           </button>
 
           <button

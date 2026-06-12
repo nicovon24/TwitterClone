@@ -1,8 +1,8 @@
 # Current
 
-## Now — 2026-06-09
+## Now — 2026-06-12
 
-Working on: All test fixes shipped. Backend 46/46, frontend 8/8.
+Working on: Docker rebuild is healthy after fixing reply schema typing and registering the replies/notifications migration.
 
 ## Next
 
@@ -15,6 +15,7 @@ Working on: All test fixes shipped. Backend 46/46, frontend 8/8.
 
 ## Recently shipped
 
+- 2026-06-12 — Fixed Docker backend build by typing the self-referential `tweets.parent_tweet_id` column with `AnyPgColumn`; registered `0002_notifications_and_replies` in Drizzle's migration journal so replies/notifications schema applies before seed.
 - 2026-06-09 — Fixed production hydration crash by deferring `AppShell` until client mount and making fallback avatars tolerate missing usernames. Fixed follow state on public profile/follower/following routes with optional auth, and restored Explore's empty-query user listing.
 - 2026-06-05 — Timeline tabs now functional: `GET /timeline?feed=for-you|following`. "Para ti" = global feed of all tweets (chronological); "Siguiendo" = only followed accounts (empty if you follow nobody). `getTimeline` takes a `feed` param; home page tabs are clickable and refetch on switch (`Timeline` accepts a `feed` prop). Integration tests updated for the new feed semantics.
 - 2026-06-05 — Sidebar account chip split: avatar/name link to own profile; logout is now its own dedicated button (no more accidental logout when tapping the chip).

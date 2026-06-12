@@ -31,12 +31,14 @@ router.delete('/me', requireAuth, async (req: Request, res: Response): Promise<v
 });
 
 // GET /users/:username/tweets — list a user's tweets (auth optional)
+// ?replies_only=true → only replies; omit or false → only top-level tweets
 router.get('/:username/tweets', optionalAuth, async (req: Request, res: Response): Promise<void> => {
   const requesterId = req.user?.id;
   const cursor = typeof req.query.cursor === 'string' ? req.query.cursor : undefined;
   const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 20;
+  const onlyReplies = req.query.replies_only === 'true';
   try {
-    const result = await tweetService.getUserTweets(req.params.username, requesterId, cursor, limit);
+    const result = await tweetService.getUserTweets(req.params.username, requesterId, cursor, limit, onlyReplies);
     res.status(200).json({ tweets: result.tweets, next_cursor: result.nextCursor });
   } catch (err: unknown) {
     const typed = err as { status?: number };

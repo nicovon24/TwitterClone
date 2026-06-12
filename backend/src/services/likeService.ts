@@ -1,6 +1,7 @@
 import { eq, and, count, isNull } from 'drizzle-orm';
 import { db } from '../db/index.js';
 import { likes, tweets } from '../db/schema.js';
+import * as notificationService from './notificationService.js';
 
 async function getTweetOrThrow(tweetId: string): Promise<void> {
   const [tweet] = await db
@@ -32,6 +33,22 @@ export async function likeTweet(userId: string, tweetId: string): Promise<{ like
     }
     throw err;
   }
+  // Fire-and-forget notification to tweet owner
+  db.select({ user_id: tweets.user_id })
+    .from(tweets)
+    .where(eq(tweets.id, tweetId))
+    .limit(1)
+    .then(([tweetRow]) => {
+      if (tweetRow) {
+        notificationService.createNotification({
+          recipientId: tweetRow.user_id,
+          actorId: userId,
+          type: 'like',
+          tweetId,
+        }).catch(() => {});
+      }
+    })
+    .catch(() => {});
   const likes_count = await getLikesCount(tweetId);
   return { likes_count };
 }

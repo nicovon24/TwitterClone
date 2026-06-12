@@ -10,6 +10,7 @@ import likeRouter from './routes/like.routes.js';
 import userRouter from './routes/user.routes.js';
 import searchRouter from './routes/search.routes.js';
 import uploadRouter from './routes/upload.routes.js';
+import notificationRouter from './routes/notification.routes.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/likes', likeRouter);
 app.use('/users', userRouter);
 app.use('/search', searchRouter);
 app.use('/uploads', uploadRouter);
+app.use('/notifications', notificationRouter);
 
 app.use(errorHandler);
 

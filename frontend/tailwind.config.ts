@@ -35,9 +35,14 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'translateY(-4px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateX(-50%) translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateX(-50%) translateY(0)' },
+        },
       },
       animation: {
         'fade-in': 'fadeIn 150ms ease-out',
+        'slide-up': 'slideUp 200ms ease-out',
       },
       fontFamily: {
         sans: [

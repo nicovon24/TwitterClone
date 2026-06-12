@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Sidebar from './Sidebar'
 import BottomNav from './BottomNav'
 import RightSidebar from './RightSidebar'
+import NotificationToast from './NotificationToast'
 
 const AUTH_ROUTES = ['/login', '/register']
 
@@ -33,6 +34,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <RightSidebar />
       </div>
       <BottomNav />
+      <NotificationToast />
     </>
   )
 }

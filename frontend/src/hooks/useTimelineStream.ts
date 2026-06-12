@@ -1,10 +1,14 @@
 import { useEffect } from 'react'
 import { useAuthStore } from '@/store/authStore'
 import { useTimelineStore } from '@/store/timelineStore'
+import { useNotificationStore } from '@/store/notificationStore'
 
 export function useTimelineStream(): void {
   const accessToken = useAuthStore((state) => state.accessToken)
   const prependTweet = useTimelineStore((state) => state.prependTweet)
+  const prependNotification = useNotificationStore((state) => state.prependNotification)
+  const incrementUnread = useNotificationStore((state) => state.incrementUnread)
+  const setToastNotification = useNotificationStore((state) => state.setToastNotification)
 
   useEffect(() => {
     if (!accessToken) return
@@ -28,6 +32,18 @@ export function useTimelineStream(): void {
         }
       })
 
+      es.addEventListener('notification', (event) => {
+        try {
+          const notification = JSON.parse(event.data)
+          prependNotification(notification)
+          incrementUnread()
+          setToastNotification(notification)
+          attempt = 0
+        } catch {
+          // ignore malformed events
+        }
+      })
+
       es.onerror = () => {
         es?.close()
         const delay = BACKOFF[Math.min(attempt, BACKOFF.length - 1)]
@@ -42,5 +58,5 @@ export function useTimelineStream(): void {
       es?.close()
       if (timeoutId) clearTimeout(timeoutId)
     }
-  }, [accessToken, prependTweet])
+  }, [accessToken, prependTweet, prependNotification, incrementUnread, setToastNotification])
 }

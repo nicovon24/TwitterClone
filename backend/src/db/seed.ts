@@ -212,20 +212,20 @@ const SEED_TWEETS: SeedTweet[] = [
 // Format: [followerUsername, followingUsername]
 const SEED_FOLLOWS: Array<[string, string]> = [
   // martina follows
-  ['martina', 'lucas_dev'], ['martina', 'sofia_g'], ['martina', 'mateo_ux'],
-  ['martina', 'caro_reads'], ['martina', 'nico_photo'],
+  ['martina', 'lucas_dev'], ['martina', 'sofia_g'], ['martina', 'mateo_h'],
+  ['martina', 'carolina_l'], ['martina', 'nicolas_v'],
   // lucas_dev follows
   ['lucas_dev', 'martina'], ['lucas_dev', 'tomas'], ['lucas_dev', 'valen'],
-  ['lucas_dev', 'pablito_ml'], ['lucas_dev', 'mateo_ux'],
+  ['lucas_dev', 'pablo_c'], ['lucas_dev', 'mateo_h'],
   // sofia_g follows
-  ['sofia_g', 'martina'], ['sofia_g', 'lucas_dev'], ['sofia_g', 'caro_reads'],
-  ['sofia_g', 'tomas'], ['sofia_g', 'nico_photo'],
+  ['sofia_g', 'martina'], ['sofia_g', 'lucas_dev'], ['sofia_g', 'carolina_l'],
+  ['sofia_g', 'tomas'], ['sofia_g', 'nicolas_v'],
   // tomas follows
-  ['tomas', 'lucas_dev'], ['tomas', 'sofia_g'], ['tomas', 'juli_runs'],
-  ['tomas', 'pablito_ml'], ['tomas', 'valen'],
+  ['tomas', 'lucas_dev'], ['tomas', 'sofia_g'], ['tomas', 'julieta_m'],
+  ['tomas', 'pablo_c'], ['tomas', 'valen'],
   // valen follows
-  ['valen', 'pablito_ml'], ['valen', 'lucas_dev'], ['valen', 'martina'],
-  ['valen', 'mateo_ux'], ['valen', 'sofia_g'],
+  ['valen', 'pablo_c'], ['valen', 'lucas_dev'], ['valen', 'martina'],
+  ['valen', 'mateo_h'], ['valen', 'sofia_g'],
   // nicolas_v follows
   ['nicolas_v', 'martina'], ['nicolas_v', 'carolina_l'], ['nicolas_v', 'julieta_m'],
   ['nicolas_v', 'sofia_g'], ['nicolas_v', 'mateo_h'],

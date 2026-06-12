@@ -1,6 +1,7 @@
 import { eq, and, gt, sql } from 'drizzle-orm';
 import { db } from '../db/index.js';
 import { follows, users } from '../db/schema.js';
+import * as notificationService from './notificationService.js';
 
 export interface UserSummary {
   id: string;
@@ -39,6 +40,12 @@ export async function follow(followerId: string, targetUsername: string): Promis
     }
     throw err;
   }
+  // Fire-and-forget follow notification
+  notificationService.createNotification({
+    recipientId: targetId,
+    actorId: followerId,
+    type: 'follow',
+  }).catch(() => {});
 }
 
 export async function unfollow(followerId: string, targetUsername: string): Promise<void> {

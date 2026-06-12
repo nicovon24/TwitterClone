@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/api'
@@ -24,6 +24,8 @@ interface UserProfile {
   is_following: boolean
 }
 
+type Tab = 'posts' | 'replies'
+
 export default function UserProfilePage() {
   const params = useParams<{ username: string }>()
   const username = params.username
@@ -34,11 +36,20 @@ export default function UserProfilePage() {
   const { isDark, toggle: toggleTheme } = useThemeStore()
 
   const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [notFound, setNotFound] = useState(false)
+  const [activeTab, setActiveTab] = useState<Tab>('posts')
+
+  // Posts tab state
   const [tweets, setTweets] = useState<Tweet[]>([])
   const [nextCursor, setNextCursor] = useState<string | null>(null)
+
+  // Replies tab state
+  const [replies, setReplies] = useState<Tweet[]>([])
+  const [repliesNextCursor, setRepliesNextCursor] = useState<string | null>(null)
+  const [repliesLoaded, setRepliesLoaded] = useState(false)
+
   const [isFollowing, setIsFollowing] = useState(false)
   const [loadingFollow, setLoadingFollow] = useState(false)
-  const [notFound, setNotFound] = useState(false)
 
   // Edit modal
   const [editOpen, setEditOpen] = useState(false)
@@ -50,6 +61,17 @@ export default function UserProfilePage() {
   // Delete confirmation
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
+
+  const loadReplies = useCallback(async () => {
+    try {
+      const res = await api.get(`/users/${username}/tweets`, { params: { replies_only: 'true' } })
+      setReplies(res.data.tweets)
+      setRepliesNextCursor(res.data.next_cursor)
+      setRepliesLoaded(true)
+    } catch {
+      setRepliesLoaded(true)
+    }
+  }, [username])
 
   useEffect(() => {
     if (!accessToken) { router.replace('/login'); return }
@@ -68,6 +90,13 @@ export default function UserProfilePage() {
       })
       .catch(() => {})
   }, [username, accessToken, router])
+
+  function handleTabChange(tab: Tab) {
+    setActiveTab(tab)
+    if (tab === 'replies' && !repliesLoaded) {
+      loadReplies()
+    }
+  }
 
   async function handleFollow() {
     if (!profile) return
@@ -89,12 +118,23 @@ export default function UserProfilePage() {
     }
   }
 
-  async function loadMore() {
+  async function loadMorePosts() {
     if (!nextCursor) return
     try {
       const res = await api.get(`/users/${username}/tweets`, { params: { cursor: nextCursor } })
       setTweets((prev) => [...prev, ...res.data.tweets])
       setNextCursor(res.data.next_cursor)
+    } catch {
+      // silently ignore
+    }
+  }
+
+  async function loadMoreReplies() {
+    if (!repliesNextCursor) return
+    try {
+      const res = await api.get(`/users/${username}/tweets`, { params: { cursor: repliesNextCursor, replies_only: 'true' } })
+      setReplies((prev) => [...prev, ...res.data.tweets])
+      setRepliesNextCursor(res.data.next_cursor)
     } catch {
       // silently ignore
     }
@@ -230,32 +270,82 @@ export default function UserProfilePage() {
         </div>
       </div>
 
-      {/* Tweets */}
-      <div>
-        {tweets.map((tweet) => (
-          <TweetCard
-            key={tweet.id}
-            tweet={tweet}
-            currentUserId={currentUser?.id ?? null}
-            onDelete={(id) => setTweets((prev) => prev.filter((t) => t.id !== id))}
-          />
-        ))}
-
-        {tweets.length === 0 && (
-          <p className="text-center p-8 text-x-gray text-sm">
-            @{username} todavía no publicó tweets.
-          </p>
-        )}
-
-        {nextCursor && (
+      {/* Tabs */}
+      <div className="flex border-b border-x-border dark:border-[#2f3336]">
+        {(['posts', 'replies'] as Tab[]).map((tab) => (
           <button
-            onClick={loadMore}
-            className="w-full p-4 text-x-blue hover:bg-x-light text-sm font-medium transition-colors"
+            key={tab}
+            onClick={() => handleTabChange(tab)}
+            className={`flex-1 py-4 text-[15px] font-semibold transition-colors relative hover:bg-x-hover ${
+              activeTab === tab
+                ? 'text-x-fg'
+                : 'text-x-muted'
+            }`}
           >
-            Cargar más
+            {tab === 'posts' ? 'Posts' : 'Respuestas'}
+            {activeTab === tab && (
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-full bg-x-blue" />
+            )}
           </button>
-        )}
+        ))}
       </div>
+
+      {/* Posts tab */}
+      {activeTab === 'posts' && (
+        <div>
+          {tweets.map((tweet) => (
+            <TweetCard
+              key={tweet.id}
+              tweet={tweet}
+              currentUserId={currentUser?.id ?? null}
+              onDelete={(id) => setTweets((prev) => prev.filter((t) => t.id !== id))}
+            />
+          ))}
+          {tweets.length === 0 && (
+            <p className="text-center p-8 text-x-gray text-sm">
+              @{username} todavía no publicó posts.
+            </p>
+          )}
+          {nextCursor && (
+            <button
+              onClick={loadMorePosts}
+              className="w-full p-4 text-x-blue hover:bg-x-light text-sm font-medium transition-colors"
+            >
+              Cargar más
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Replies tab */}
+      {activeTab === 'replies' && (
+        <div>
+          {!repliesLoaded && (
+            <p className="text-center p-8 text-x-gray text-sm">Cargando...</p>
+          )}
+          {repliesLoaded && replies.map((tweet) => (
+            <TweetCard
+              key={tweet.id}
+              tweet={tweet}
+              currentUserId={currentUser?.id ?? null}
+              onDelete={(id) => setReplies((prev) => prev.filter((t) => t.id !== id))}
+            />
+          ))}
+          {repliesLoaded && replies.length === 0 && (
+            <p className="text-center p-8 text-x-gray text-sm">
+              @{username} todavía no hizo respuestas.
+            </p>
+          )}
+          {repliesNextCursor && (
+            <button
+              onClick={loadMoreReplies}
+              className="w-full p-4 text-x-blue hover:bg-x-light text-sm font-medium transition-colors"
+            >
+              Cargar más
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Edit profile modal */}
       {editOpen && (
